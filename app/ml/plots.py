@@ -5,6 +5,7 @@ import seaborn as sns
 from sklearn.linear_model import LinearRegression
 
 from app.ml.constants import Constants as C
+from app.ml.loaders import load_targets
 
 
 def print_feature_contribution_table():
@@ -383,4 +384,51 @@ def print_missing_data_rates():
 
     for feature, rate in missing_rates.items():
         print(f"{feature}: {rate:.2f}%")
+
+
+def print_target_distribution():
+    """
+    Compute and display the distribution (mean, SD, range) of the rescaled
+    well-being target (0-100) from feature_library_v10.
+    """
+    FEATURE_LIBRARY_PATH = (
+        C.ML_PATH / "real" / C.FEATURE_LIBRARIES_FOLDER_NAME / "feature_library_v10"
+    )
+    df_targets = load_targets(FEATURE_LIBRARY_PATH, C.TARGETS_FILENAME)
+
+    target_col = C.TARGET_SCORE_TOT
+    raw_values = df_targets[target_col]
+    n_total = len(raw_values)
+    n_missing = raw_values.isna().sum()
+
+    # Filter out edge cases (0 and 70)
+    non_missing = raw_values.dropna()
+    n_zero = (non_missing == 0).sum()
+    n_seventy = (non_missing == 70).sum()
+    filtered_values = non_missing[(non_missing > 0) & (non_missing < 70)]
+
+    # Rescale from 0-70 to 0-100
+    target_values = filtered_values * (100 / 70)
+
+    # Compute statistics
+    mean_val = target_values.mean()
+    sd_val = target_values.std()
+    median_val = target_values.median()
+    min_val = target_values.min()
+    max_val = target_values.max()
+    iqr_val = target_values.quantile(0.75) - target_values.quantile(0.25)
+    n_obs = len(target_values)
+
+    # Print results
+    print("\n=== Well-being Target Distribution (score_tot, 0-100 scale) ===\n")
+    print(f"N total: {n_total}")
+    print(f"N missing: {n_missing}")
+    print(f"N excluded (score=0): {n_zero}")
+    print(f"N excluded (score=70): {n_seventy}")
+    print(f"N observations: {n_obs}\n")
+    print(f"Mean:   {mean_val:.2f}")
+    print(f"SD:     {sd_val:.2f}")
+    print(f"Median: {median_val:.2f}")
+    print(f"IQR:    {iqr_val:.2f}")
+    print(f"Range:  {min_val:.2f} - {max_val:.2f}")
 
