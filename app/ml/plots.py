@@ -344,3 +344,30 @@ def print_post_exclusion_sociodemos():
     print(f" IQR:    {age_iqr:.2f}")
     print(f" Range:  {age_min} – {age_max}")
 
+
+def print_missing_data_rates():
+    """
+    Compute and display the percentage of missing data for each feature
+    in feature_library_v10.
+    """
+    FEATURE_LIBRARY_PATH = (
+        C.ML_PATH / "real" / C.FEATURE_LIBRARIES_FOLDER_NAME / "feature_library_v10"
+    )
+    features_df = pd.read_csv(FEATURE_LIBRARY_PATH / C.FEATURE_LIBRARY_FILENAME)
+
+    # Exclude ResponseId column if present
+    if "ResponseId" in features_df.columns:
+        features_df = features_df.drop(columns=["ResponseId"])
+
+    # Compute missing rate per feature
+    missing_rates = features_df.isnull().mean() * 100
+    missing_rates = missing_rates.sort_values(ascending=False)
+
+    # Print results
+    print("\n=== Missing Data Rates per Feature (%) ===\n")
+    print(f"Total features: {len(missing_rates)}")
+    print(f"Total observations: {len(features_df)}\n")
+
+    for feature, rate in missing_rates.items():
+        print(f"{feature}: {rate:.2f}%")
+
