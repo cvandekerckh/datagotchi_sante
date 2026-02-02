@@ -26,6 +26,8 @@ class Constants:
     RAW_PATH = DATA_PATH / RAW_FOLDER_NAME
     ML_PATH = DATA_PATH / ML_FOLDER_NAME
     CODEBOOK_PATH = ML_PATH / CODEBOOK_FOLDER_NAME
+    DATA_EXPLAIN_PATH = Path(os.getenv("DATA_EXPLAIN_PATH"))
+    DATA_EXPLAIN_CLEAN_PATH = DATA_EXPLAIN_PATH / "results" / "clean"
 
     # Filenames
     RAW_FILENAME = "data_raw.sav"
@@ -48,6 +50,7 @@ class Constants:
     BEST_MODEL_COEFFICIENT_FILENAME = "model_coefficients.json"
     BEST_PARAMS_FILENAME = "model_details.json"
     EXAMPLE_PREDICTION_FILENAME = "example_predictions.csv"
+    CLEAN_RESULTS_FILENAME = "clean_results.csv"
 
     # Codebook fields
     CODEBOOK_ID_COL = "id"
