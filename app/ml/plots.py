@@ -216,48 +216,154 @@ def compute_metrics(group):
 
 def print_boxplots():
 
-    # Load predictions
+    # Load Study 1 predictions (cross-validation)
     CHOSEN_EXPERIMENT_FOLDER = "experiments/12_paper_review_round1"
     CHOSEN_ARTIFACT_FOLDER = "artifacts/HumorousShark5621"
-    df = pd.read_csv(
+    df_study1 = pd.read_csv(
         C.ML_PATH
         / "real"
         / CHOSEN_EXPERIMENT_FOLDER
         / CHOSEN_ARTIFACT_FOLDER
         / "predictions.csv"
     )
+    df_study1["study"] = "Study 1"
 
-    # --- Compute metrics (MAE, MSE, R²) by model ---
-    metrics_df = df.groupby("model_name").apply(compute_metrics).reset_index()
+    # Load Study 2 predictions (out-of-sample)
+    df_study2 = pd.read_csv(C.DATA_EXPLAIN_CLEAN_PATH / C.CLEAN_RESULTS_FILENAME)
+    df_study2 = df_study2.rename(columns={
+        "observed_wellbeing_score": "y_test",
+        "predicted_wellbeing_score": "y_predict"
+    })
+    df_study2["model_name"] = "ridge_regressor"
+    df_study2["study"] = "Study 2"
 
-    # --- Print metrics ---
-    print("Model performance:\n")
-    print(metrics_df.sort_values("MAE").to_string(index=False, float_format="%.3f"))
+    # --- Compute metrics by study and model ---
+    metrics_study1 = df_study1.groupby("model_name").apply(compute_metrics).reset_index()
+    metrics_study1["study"] = "Study 1"
+    metrics_study1["N"] = len(df_study1) // len(metrics_study1)  # approx N per model
 
-    # --- Boxplot of MAE across folds ---
-    mae_by_fold = df.copy()
-    mae_by_fold["abs_error"] = np.abs(mae_by_fold["y_test"] - mae_by_fold["y_predict"])
+    metrics_study2 = df_study2.groupby("model_name").apply(compute_metrics).reset_index()
+    metrics_study2["study"] = "Study 2"
+    metrics_study2["N"] = len(df_study2)
 
+    # Combine metrics tables
+    metrics_combined = pd.concat([metrics_study1, metrics_study2], ignore_index=True)
+    metrics_combined = metrics_combined[["study", "model_name", "N", "MAE", "MSE", "R2"]]
+
+    # --- Print combined metrics table ---
+    print("=== Model Performance: Study 1 (CV) vs Study 2 (Out-of-sample) ===\n")
+    print(metrics_combined.sort_values(["study", "MAE"]).to_string(
+        index=False, float_format="%.3f"
+    ))
+
+    # --- Ground truth distribution table ---
+    # For Study 1, get unique y_test values (same across models)
+    y_test_study1 = df_study1[df_study1["model_name"] == "ridge_regressor"]["y_test"]
+    y_test_study2 = df_study2["y_test"]
+
+    ground_truth_stats = pd.DataFrame({
+        "study": ["Study 1", "Study 2"],
+        "N": [len(y_test_study1), len(y_test_study2)],
+        "Mean": [y_test_study1.mean(), y_test_study2.mean()],
+        "SD": [y_test_study1.std(), y_test_study2.std()],
+        "Min": [y_test_study1.min(), y_test_study2.min()],
+        "Max": [y_test_study1.max(), y_test_study2.max()],
+    })
+
+    print("\n\n=== Ground Truth (Well-being Score) Distribution ===\n")
+    print(ground_truth_stats.to_string(index=False, float_format="%.2f"))
+
+    # --- Filtered analysis (excluding extreme values y_test = 0 and y_test = 100) ---
+    df_study1_filtered = df_study1[(df_study1["y_test"] > 0) & (df_study1["y_test"] < 100)]
+    df_study2_filtered = df_study2[(df_study2["y_test"] > 0) & (df_study2["y_test"] < 100)]
+
+    y_test_study1_filt = df_study1_filtered[
+        df_study1_filtered["model_name"] == "ridge_regressor"
+    ]["y_test"]
+    y_test_study2_filt = df_study2_filtered["y_test"]
+
+    ground_truth_stats_filtered = pd.DataFrame({
+        "study": ["Study 1", "Study 2"],
+        "N": [len(y_test_study1_filt), len(y_test_study2_filt)],
+        "Mean": [y_test_study1_filt.mean(), y_test_study2_filt.mean()],
+        "SD": [y_test_study1_filt.std(), y_test_study2_filt.std()],
+        "Min": [y_test_study1_filt.min(), y_test_study2_filt.min()],
+        "Max": [y_test_study1_filt.max(), y_test_study2_filt.max()],
+    })
+
+    print("\n\n=== Ground Truth Distribution (excluding y_test = 0 and 100) ===\n")
+    print(ground_truth_stats_filtered.to_string(index=False, float_format="%.2f"))
+
+    # Compute metrics for filtered data
+    metrics_study1_filt = df_study1_filtered.groupby("model_name").apply(
+        compute_metrics
+    ).reset_index()
+    metrics_study1_filt["study"] = "Study 1"
+    metrics_study1_filt["nMAE"] = metrics_study1_filt["MAE"] / y_test_study1_filt.std()
+
+    metrics_study2_filt = df_study2_filtered.groupby("model_name").apply(
+        compute_metrics
+    ).reset_index()
+    metrics_study2_filt["study"] = "Study 2"
+    metrics_study2_filt["nMAE"] = metrics_study2_filt["MAE"] / y_test_study2_filt.std()
+
+    metrics_filtered = pd.concat([metrics_study1_filt, metrics_study2_filt], ignore_index=True)
+    metrics_filtered = metrics_filtered[["study", "model_name", "MAE", "nMAE", "MSE", "R2"]]
+
+    print("\n\n=== Model Performance (excluding y_test = 0 and 100) ===\n")
+    print(metrics_filtered.sort_values(["study", "MAE"]).to_string(
+        index=False, float_format="%.3f"
+    ))
+
+    # --- Print prediction error distribution for Study 2 ---
+    prediction_error = df_study2["y_predict"] - df_study2["y_test"]
+    print("\n\nStudy 2 prediction error distribution (predicted - observed):")
+    print(f"  Mean:   {prediction_error.mean():.2f}")
+    print(f"  SD:     {prediction_error.std():.2f}")
+    print(f"  Median: {prediction_error.median():.2f}")
+    print(f"  Min:    {prediction_error.min():.2f}")
+    print(f"  Max:    {prediction_error.max():.2f}")
+
+    # --- Combine data for boxplot ---
+    df_study1_ridge = df_study1[df_study1["model_name"] == "ridge_regressor"].copy()
+    df_study2_copy = df_study2[["y_test", "y_predict", "model_name", "study"]].copy()
+    df_combined = pd.concat([df_study1_ridge, df_study2_copy], ignore_index=True)
+    df_combined["abs_error"] = np.abs(df_combined["y_test"] - df_combined["y_predict"])
+
+    # --- Boxplot comparing Study 1 vs Study 2 (ridge) ---
     plt.figure(figsize=(8, 5))
-    sns.boxplot(x="model_name", y="abs_error", data=mae_by_fold, palette="pastel")
-    plt.ylabel("Mean Absolute Error (MAE)")
-    plt.xlabel("Model")
-    plt.title("MAE Distribution Across Folds")
-    plt.xticks(rotation=15)
+    sns.boxplot(x="study", y="abs_error", data=df_combined, hue="study", legend=False)
+    plt.ylabel("Absolute Error")
+    plt.xlabel("")
+    plt.title("Prediction Error Distribution: Study 1 (CV) vs Study 2 (Out-of-sample)")
     plt.tight_layout()
     plt.show()
 
-    # --- Scatter plot for XGBoost predictions ---
-    xgb_df = df[df["model_name"] == "xgboost_regressor"]
+    # --- Side-by-side scatter plots ---
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
-    plt.figure(figsize=(6, 6))
-    sns.scatterplot(x="y_test", y="y_predict", data=xgb_df, alpha=0.6)
-    plt.plot([0, 100], [0, 100], "--", color="gray")  # y = x reference line
-    plt.xlabel("True Well-Being Score")
-    plt.ylabel("Predicted Score")
-    plt.title("XGBoost Predictions: Actual vs. Predicted")
-    plt.xlim(0, 100)
-    plt.ylim(0, 100)
+    # Study 1: Ridge predictions
+    sns.scatterplot(
+        x="y_test", y="y_predict", data=df_study1_ridge, alpha=0.6, ax=axes[0]
+    )
+    axes[0].plot([0, 100], [0, 100], "--", color="gray")
+    axes[0].set_xlabel("True Well-Being Score")
+    axes[0].set_ylabel("Predicted Score")
+    axes[0].set_title("Study 1: Ridge (Cross-Validation)")
+    axes[0].set_xlim(0, 100)
+    axes[0].set_ylim(0, 100)
+
+    # Study 2: Ridge predictions (out-of-sample)
+    sns.scatterplot(
+        x="y_test", y="y_predict", data=df_study2, alpha=0.6, ax=axes[1]
+    )
+    axes[1].plot([0, 100], [0, 100], "--", color="gray")
+    axes[1].set_xlabel("True Well-Being Score")
+    axes[1].set_ylabel("Predicted Score")
+    axes[1].set_title("Study 2: Ridge (Out-of-sample)")
+    axes[1].set_xlim(0, 100)
+    axes[1].set_ylim(0, 100)
+
     plt.tight_layout()
     plt.show()
 
