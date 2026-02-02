@@ -7,6 +7,46 @@ from sklearn.linear_model import LinearRegression
 from app.ml.constants import Constants as C
 from app.ml.loaders import load_targets
 
+# Coefficients from the final model (used in print_feature_weights and print_missing_data_rates)
+FEATURE_COEFFICIENTS = {
+    "sommeil_1": 19.480257779442653,
+    "autogestion_9": 13.739258950508374,
+    "act_friends": 10.573981915422074,
+    "quartier_domicile_3": 10.37441561209553,
+    "act_volunteer": 7.582039522720624,
+    "act_nature_1": 6.712984457109272,
+    "issue_ai_data_3_4.0": 6.211935973164852,
+    "style_2.0": 5.800051764248763,
+    "origines_ethniques_2.0": 5.546301967076551,
+    "quartier_opportunite": 5.277927206481349,
+    "style_8.0": 4.346996663137828,
+    "maladies_15": 4.316886975680833,
+    "chronotype_3.0": 3.114592617545137,
+    "style_3.0": 2.621579066168746,
+    "maladies_20": 2.2096988659620567,
+    "travail_domaine_10": 1.9941260783687138,
+    "travail_domaine_1": 1.611802693180884,
+    "travail_domaine_6": 0.7180376658381294,
+    "car_model_4.0": -0.09800847663296446,
+    "nb_friends_dispo": -0.9103018830122579,
+    "chronotype_2.0": -1.0195887582044736,
+    "maladies_16": -1.2263633227378077,
+    "consult_who_3": -1.8672544591860067,
+    "travail_domaine_2": -2.4228695857740035,
+    "married_5.0": -2.8769237833374386,
+    "LatDec_3": -3.2189642982888675,
+    "smoking": -3.3220889376401725,
+    "maladies_22": -3.4089094543669365,
+    "consult_who_6": -3.692072046631762,
+    "origines_ethniques_4.0": -4.535129453843979,
+    "travail_domaine_8": -4.744858060178581,
+    "maladies_21": -5.675348481322472,
+    "consult_who_5": -5.783787669451122,
+    "maladies_19": -7.299199694152446,
+    "travail_domaine_3": -7.64902421282413,
+    "SoutSup_6": -10.924356674397478,
+}
+
 
 def print_feature_contribution_table():
     # === Load data ===
@@ -142,49 +182,8 @@ def print_vif():
 
 
 def print_feature_weights():
-
-    # Coefficients dictionary
-    coefficients = {
-        "sommeil_1": 19.480257779442653,
-        "autogestion_9": 13.739258950508374,
-        "act_friends": 10.573981915422074,
-        "quartier_domicile_3": 10.37441561209553,
-        "act_volunteer": 7.582039522720624,
-        "act_nature_1": 6.712984457109272,
-        "issue_ai_data_3_4.0": 6.211935973164852,
-        "style_2.0": 5.800051764248763,
-        "origines_ethniques_2.0": 5.546301967076551,
-        "quartier_opportunite": 5.277927206481349,
-        "style_8.0": 4.346996663137828,
-        "maladies_15": 4.316886975680833,
-        "chronotype_3.0": 3.114592617545137,
-        "style_3.0": 2.621579066168746,
-        "maladies_20": 2.2096988659620567,
-        "travail_domaine_10": 1.9941260783687138,
-        "travail_domaine_1": 1.611802693180884,
-        "travail_domaine_6": 0.7180376658381294,
-        "car_model_4.0": -0.09800847663296446,
-        "nb_friends_dispo": -0.9103018830122579,
-        "chronotype_2.0": -1.0195887582044736,
-        "maladies_16": -1.2263633227378077,
-        "consult_who_3": -1.8672544591860067,
-        "travail_domaine_2": -2.4228695857740035,
-        "married_5.0": -2.8769237833374386,
-        "LatDec_3": -3.2189642982888675,
-        "smoking": -3.3220889376401725,
-        "maladies_22": -3.4089094543669365,
-        "consult_who_6": -3.692072046631762,
-        "origines_ethniques_4.0": -4.535129453843979,
-        "travail_domaine_8": -4.744858060178581,
-        "maladies_21": -5.675348481322472,
-        "consult_who_5": -5.783787669451122,
-        "maladies_19": -7.299199694152446,
-        "travail_domaine_3": -7.64902421282413,
-        "SoutSup_6": -10.924356674397478,
-    }
-
     # Convert to DataFrame and sort
-    df = pd.DataFrame(coefficients.items(), columns=["Feature", "Coefficient"])
+    df = pd.DataFrame(FEATURE_COEFFICIENTS.items(), columns=["Feature", "Coefficient"])
     df_sorted = df.sort_values(by="Coefficient", ascending=True)
 
     # Plot
@@ -218,8 +217,8 @@ def compute_metrics(group):
 def print_boxplots():
 
     # Load predictions
-    CHOSEN_EXPERIMENT_FOLDER = "experiments/11_export_question_with_filter_on_countries"
-    CHOSEN_ARTIFACT_FOLDER = "artifacts/KindheartedLeopard2633"
+    CHOSEN_EXPERIMENT_FOLDER = "experiments/12_paper_review_round1"
+    CHOSEN_ARTIFACT_FOLDER = "artifacts/HumorousShark5621"
     df = pd.read_csv(
         C.ML_PATH
         / "real"
@@ -377,13 +376,26 @@ def print_missing_data_rates():
     missing_rates = features_df.isnull().mean() * 100
     missing_rates = missing_rates.sort_values(ascending=False)
 
-    # Print results
+    # Print results for all features
     print("\n=== Missing Data Rates per Feature (%) ===\n")
     print(f"Total features: {len(missing_rates)}")
     print(f"Total observations: {len(features_df)}\n")
 
     for feature, rate in missing_rates.items():
         print(f"{feature}: {rate:.2f}%")
+
+    # Print results for selected features (from model coefficients)
+    selected_features = list(FEATURE_COEFFICIENTS.keys())
+    selected_missing = missing_rates[missing_rates.index.isin(selected_features)]
+    selected_missing = selected_missing.sort_values(ascending=False)
+
+    print("\n\n=== Missing Data Rates for Selected Features (%) ===\n")
+    print(f"Selected features: {len(selected_missing)}")
+    print(f"Total observations: {len(features_df)}\n")
+
+    for feature, rate in selected_missing.items():
+        coef = FEATURE_COEFFICIENTS[feature]
+        print(f"{feature}: {rate:.2f}% (coef: {coef:.2f})")
 
 
 def print_target_distribution():
