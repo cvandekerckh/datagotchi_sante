@@ -131,6 +131,12 @@ print-boxplots:
 print-sociodemos:
 	poetry run python -c "from app.ml.plots import print_post_exclusion_sociodemos; print_post_exclusion_sociodemos()"
 
+print-missing-data:
+	poetry run python -c "from app.ml.plots import print_missing_data_rates; print_missing_data_rates()"
+
+print-target-distribution:
+	poetry run python -c "from app.ml.plots import print_target_distribution; print_target_distribution()"
+
 update-prolific:
 	@if [ -z "$(STUDY_ID)" ] || [ -z "$(COMPLETION_CODE)" ]; then \
 		echo "Usage: make update-prolific STUDY_ID=<id> COMPLETION_CODE=<code>"; \
