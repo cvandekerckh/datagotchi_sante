@@ -1,7 +1,8 @@
 import numpy as np
 import xgboost as xgb
 from sklearn.base import BaseEstimator, RegressorMixin
-from sklearn.linear_model import Ridge
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import ElasticNet, Lasso, LinearRegression, Ridge
 from sklearn.tree import ExtraTreeRegressor
 from xgboost import XGBRegressor
 
@@ -96,4 +97,8 @@ available_models_dict = {
     "random_regressor": RandomValueRegressor,
     "xgboost_regressor": XGBRegressor,
     "ridge_regressor": Ridge,
+    "random_forest_regressor": RandomForestRegressor,
+    "linear_regressor": LinearRegression,
+    "lasso_regressor": Lasso,
+    "elasticnet_regressor": ElasticNet,
 }

@@ -60,7 +60,7 @@ def select_above_variance_treshold_features(df_X, df_y, threshold):
 
 
 # Feature selection based on k best features
-def select_k_best_features(df_X, df_y, k):
+def select_k_best_features(df_X, df_y, k, df_feature_lookup=None):
 
     logger.info(f"Select {k} best features")
 
@@ -80,7 +80,7 @@ def select_k_best_features(df_X, df_y, k):
     feature_scores = score_normalization(feature_scores)
 
     # Create a dataframe with features selected
-    df_features = creation_feature_selected(feature_scores, df_X, k)
+    df_features = creation_feature_selected(feature_scores, df_X, k, df_feature_lookup)
 
     return (
         df_features[C.LOOKUP_FEATURE_NAME_COL],
@@ -90,7 +90,7 @@ def select_k_best_features(df_X, df_y, k):
 
 
 # Feature selection based on xgboost
-def select_xgboost_features(df_X, df_y, k):
+def select_xgboost_features(df_X, df_y, k, df_feature_lookup=None):
     logger.info(f"Select features based on xgboost")
 
     # Handle missing values
@@ -107,7 +107,7 @@ def select_xgboost_features(df_X, df_y, k):
     feature_scores = score_normalization(feature_importances)
 
     # Create a dataframe with features selected
-    df_features = creation_feature_selected(feature_scores, df_X, k)
+    df_features = creation_feature_selected(feature_scores, df_X, k, df_feature_lookup)
 
     return (
         df_features[C.LOOKUP_FEATURE_NAME_COL],
@@ -117,7 +117,7 @@ def select_xgboost_features(df_X, df_y, k):
 
 
 # Create a dataframe with features selected
-def creation_feature_selected(feature_scores, df_X, k):
+def creation_feature_selected(feature_scores, df_X, k, df_feature_lookup=None):
 
     # Create dataframe
     dico_features = {
@@ -129,17 +129,16 @@ def creation_feature_selected(feature_scores, df_X, k):
     # Order by scores
     df_features_sorted = df_features.sort_values(by="feature_scores", ascending=False)
 
-    # Derive paths from configs
-    ml_run_path = C.ML_PATH / eval(f"C.{Config.RUN_TYPE}")
-    frozen_library_folder_name = Config.FEATURE_LIBRARY_VERSION
-    feature_library_path = (
-        ml_run_path / C.FEATURE_LIBRARIES_FOLDER_NAME / frozen_library_folder_name
-    )
-
-    # Feature lookup table
-    df_feature_lookup = load_feature_lookup_table(
-        feature_library_path, C.FEATURE_LOOKUP_FILENAME
-    )
+    # Load feature lookup table from config if not provided
+    if df_feature_lookup is None:
+        ml_run_path = C.ML_PATH / eval(f"C.{Config.RUN_TYPE}")
+        frozen_library_folder_name = Config.FEATURE_LIBRARY_VERSION
+        feature_library_path = (
+            ml_run_path / C.FEATURE_LIBRARIES_FOLDER_NAME / frozen_library_folder_name
+        )
+        df_feature_lookup = load_feature_lookup_table(
+            feature_library_path, C.FEATURE_LOOKUP_FILENAME
+        )
 
     # Merge the two dataframes
     df_feature_score_lookup = df_features_sorted.merge(
@@ -170,6 +169,36 @@ available_feature_selection = {
     "kbest": select_k_best_features,
     "xgboost": select_xgboost_features,
 }
+
+
+def select_features(df_X, df_y, method_name, method_params, df_feature_lookup):
+    """
+    Perform feature selection on given data.
+
+    Parameters
+    ----------
+    df_X : pd.DataFrame
+        Feature matrix
+    df_y : pd.Series
+        Target variable
+    method_name : str
+        Name of feature selection method ('xgboost', 'kbest', etc.)
+    method_params : dict
+        Parameters for the feature selection method (e.g., {'k': 20})
+    df_feature_lookup : pd.DataFrame
+        Lookup table mapping features to question IDs
+
+    Returns
+    -------
+    list
+        List of selected feature names (keeps k-questions logic)
+    """
+    feature_selection_method = available_feature_selection[method_name]
+    feature_names, feature_scores, feature_selected = feature_selection_method(
+        df_X, df_y, df_feature_lookup=df_feature_lookup, **method_params
+    )
+    selected = [name for name, sel in zip(feature_names, feature_selected) if sel == 1]
+    return selected
 
 
 # if __name__ == "__main__":

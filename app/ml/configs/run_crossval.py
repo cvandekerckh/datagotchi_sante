@@ -15,11 +15,12 @@ class CrossvalConfig:
     # 0. Versioning
     RUN_TYPE = "REAL_FOLDER_NAME"  # SANDBOX_FOLDER_NAME or REAL_FOLDER_NAME
     FEATURE_LIBRARY_VERSION = "feature_library_v10"
-    EXPERIMENT_NAME = "11_export_question_with_filter_on_countries"
+    EXPERIMENT_NAME = "13_add_new_models"
 
     # 1. Modeling
     # 1.1. Feature Selection
     FEATURE_SELECTION_METHOD = ("xgboost", {"k": 20})
+    NESTED_FEATURE_SELECTION = True  # If True, feature selection done inside each fold
 
     # 1.2 Evaluation
     # a) Metrics
@@ -62,6 +63,40 @@ class CrossvalConfig:
                 "imputer": [SimpleImputer(strategy="mean"), KNNImputer()],
                 "scaler": [StandardScaler(), MinMaxScaler()],
                 "regressor__alpha": [1.0, 2.0, 3.0, 4.0],
+            },
+        },
+        {
+            "model_name": "random_forest_regressor",
+            "param_grid": {
+                "imputer": [SimpleImputer(strategy="mean"), KNNImputer()],
+                "scaler": [StandardScaler()],
+                "regressor__n_estimators": [100, 300],
+                "regressor__max_depth": [3, 6, None],
+                "regressor__max_features": ["sqrt", 0.5],
+            },
+        },
+        {
+            "model_name": "linear_regressor",
+            "param_grid": {
+                "imputer": [SimpleImputer(strategy="mean"), KNNImputer()],
+                "scaler": [StandardScaler(), MinMaxScaler()],
+            },
+        },
+        {
+            "model_name": "lasso_regressor",
+            "param_grid": {
+                "imputer": [SimpleImputer(strategy="mean"), KNNImputer()],
+                "scaler": [StandardScaler(), MinMaxScaler()],
+                "regressor__alpha": [0.1, 0.5, 1.0, 2.0],
+            },
+        },
+        {
+            "model_name": "elasticnet_regressor",
+            "param_grid": {
+                "imputer": [SimpleImputer(strategy="mean"), KNNImputer()],
+                "scaler": [StandardScaler(), MinMaxScaler()],
+                "regressor__alpha": [0.1, 0.5, 1.0],
+                "regressor__l1_ratio": [0.2, 0.5, 0.8],
             },
         },
     ]

@@ -10,7 +10,8 @@ from sklearn.preprocessing import RobustScaler
 
 from app.ml.configs.run_crossval import CrossvalConfig as Config
 from app.ml.constants import Constants as C
-from app.ml.loaders import load_df_X_y, load_selected_features
+from app.ml.feature_selection import select_features
+from app.ml.loaders import load_df_X_y, load_feature_lookup_table, load_selected_features
 from app.ml.metrics import available_metrics_dict
 from app.ml.models import available_models_dict
 from app.ml.tracking import track_results
@@ -42,16 +43,41 @@ def scaling_y(y, target_borne_sup):
     return y_transformed
 
 
-def crossval(X, y, index, model_list):
+def crossval(
+    X,
+    y,
+    index,
+    feature_names,
+    model_list,
+    nested_feature_selection=False,
+    feature_selection_method=None,
+    df_feature_lookup=None,
+):
     """Cross-validation (evaluation realized for each fold of each model)
 
-    Attributes
+    Parameters
     ----------
-    - X : a numpy array containing the features
-    - y : a vector containing the target
+    X : np.ndarray
+        Feature matrix
+    y : np.ndarray
+        Target vector
+    index : pd.Index
+        Index of samples
+    feature_names : list
+        List of feature names
+    model_list : list
+        List of model configurations
+    nested_feature_selection : bool
+        If True, perform feature selection inside each fold
+    feature_selection_method : tuple
+        (method_name, method_params) for feature selection
+    df_feature_lookup : pd.DataFrame
+        Lookup table for feature-to-question mapping
 
     Returns
     -------
+    tuple
+        (metrics_df, predictions_df, best_hyperparameters)
     """
 
     # Transform target between 0 and 100
@@ -85,9 +111,9 @@ def crossval(X, y, index, model_list):
         # Prepare dictionary of hyperparameters
         best_hyperparameters[fold_index] = {}
 
-        # Variables X,y train and test
-        X_train = X[train_index, :].copy()
-        X_test = X[test_index, :].copy()
+        # Variables X,y train and test (full feature set)
+        X_train_full = X[train_index, :].copy()
+        X_test_full = X[test_index, :].copy()
         y_train = y_transformed[train_index].copy()
         y_test = y_transformed[test_index].copy()
         index_test = index[test_index].copy()
@@ -99,9 +125,33 @@ def crossval(X, y, index, model_list):
             f"Fold {fold_index} : keeping {sum(~indices_nan_y_train)}/{len(indices_nan_y_train)} non-missing values"
         )
 
-        # Remove y_train missing
-        y_train = y_train[~indices_nan_y_train]
-        X_train = X_train[~indices_nan_y_train]
+        # Remove y_train missing (before feature selection)
+        y_train_clean = y_train[~indices_nan_y_train]
+        X_train_full_clean = X_train_full[~indices_nan_y_train]
+
+        # Apply nested feature selection if enabled
+        if nested_feature_selection:
+            # Feature selection on training data only (no leakage)
+            df_X_train = pd.DataFrame(X_train_full_clean, columns=feature_names)
+            method_name, method_params = feature_selection_method
+            selected_features = select_features(
+                df_X_train,
+                pd.Series(y_train_clean),
+                method_name,
+                method_params,
+                df_feature_lookup,
+            )
+            selected_indices = [feature_names.index(f) for f in selected_features]
+            X_train = X_train_full_clean[:, selected_indices]
+            X_test = X_test_full[:, selected_indices]
+            logger.info(
+                f"Fold {fold_index}: selected {len(selected_features)} features"
+            )
+        else:
+            X_train = X_train_full_clean
+            X_test = X_test_full
+
+        y_train = y_train_clean
 
         # Loop on models
         for model in model_list:
@@ -195,18 +245,42 @@ def run_crossval():
         C.TARGETS_FILENAME,
         eval(Config.TARGET_NAME),
     )
-    selected_features = load_selected_features(
-        Config.FEATURE_SELECTION_METHOD,
-        ml_run_path / C.FEATURE_SELECTION_FOLDER_NAME / frozen_library_folder_name,
-        C.FEATURE_SELECTION_FILENAME,
-    )
+
+    if Config.NESTED_FEATURE_SELECTION:
+        # Load all features (no pre-selection) - feature selection done inside each fold
+        df_X_all = df_X
+        feature_names = df_X_all.columns.tolist()
+        df_feature_lookup = load_feature_lookup_table(
+            ml_run_path / C.FEATURE_LIBRARIES_FOLDER_NAME / frozen_library_folder_name,
+            C.FEATURE_LOOKUP_FILENAME,
+        )
+        logger.info(
+            f"Nested feature selection enabled: using all {len(feature_names)} features"
+        )
+    else:
+        # Current behavior: load pre-selected features
+        selected_features = load_selected_features(
+            Config.FEATURE_SELECTION_METHOD,
+            ml_run_path / C.FEATURE_SELECTION_FOLDER_NAME / frozen_library_folder_name,
+            C.FEATURE_SELECTION_FILENAME,
+        )
+        df_X_all = df_X.loc[:, selected_features]
+        feature_names = selected_features
+        df_feature_lookup = None
+        logger.info(
+            f"Using pre-selected features: {len(feature_names)} features"
+        )
+
     model_list = Config.MODEL_LIST
-    df_X_selected = df_X.loc[:, selected_features]
     metrics_df, predictions_df, best_hyperparameters = crossval(
-        df_X_selected.values,
+        df_X_all.values,
         df_y.values,
-        df_X_selected.index,
+        df_X_all.index,
+        feature_names,
         model_list,
+        nested_feature_selection=Config.NESTED_FEATURE_SELECTION,
+        feature_selection_method=Config.FEATURE_SELECTION_METHOD,
+        df_feature_lookup=df_feature_lookup,
     )
     track_results(
         metrics_df,

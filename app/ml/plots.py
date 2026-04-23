@@ -214,9 +214,15 @@ def compute_metrics(group):
     )
 
 
+def _load_latest_predictions(experiment_name):
+    artifacts_path = C.ML_PATH / "real" / "experiments" / experiment_name / "artifacts"
+    artifact_dirs = sorted(artifacts_path.iterdir(), key=lambda p: p.stat().st_mtime)
+    return pd.read_csv(artifact_dirs[-1] / "predictions.csv")
+
+
 def print_boxplots():
 
-    # Load Study 1 predictions (cross-validation)
+    # Load Study 1 predictions (cross-validation) — base experiment
     CHOSEN_EXPERIMENT_FOLDER = "experiments/12_paper_review_round1"
     CHOSEN_ARTIFACT_FOLDER = "artifacts/HumorousShark5621"
     df_study1 = pd.read_csv(
@@ -227,6 +233,10 @@ def print_boxplots():
         / "predictions.csv"
     )
     df_study1["study"] = "Study 1"
+
+    # Load additional models from 13_add_new_models experiment
+    df_new_models = _load_latest_predictions("13_add_new_models")
+    df_new_models["study"] = "Study 1 (new models)"
 
     # Load Study 2 predictions (out-of-sample)
     df_study2 = pd.read_csv(C.DATA_EXPLAIN_CLEAN_PATH / C.CLEAN_RESULTS_FILENAME)
@@ -242,12 +252,16 @@ def print_boxplots():
     metrics_study1["study"] = "Study 1"
     metrics_study1["N"] = len(df_study1) // len(metrics_study1)  # approx N per model
 
+    metrics_new_models = df_new_models.groupby("model_name").apply(compute_metrics).reset_index()
+    metrics_new_models["study"] = "Study 1 (new models)"
+    metrics_new_models["N"] = len(df_new_models) // len(metrics_new_models)
+
     metrics_study2 = df_study2.groupby("model_name").apply(compute_metrics).reset_index()
     metrics_study2["study"] = "Study 2"
     metrics_study2["N"] = len(df_study2)
 
     # Combine metrics tables
-    metrics_combined = pd.concat([metrics_study1, metrics_study2], ignore_index=True)
+    metrics_combined = pd.concat([metrics_study1, metrics_new_models, metrics_study2], ignore_index=True)
     metrics_combined = metrics_combined[["study", "model_name", "N", "MAE", "MSE", "R2"]]
 
     # --- Print combined metrics table ---
@@ -275,6 +289,7 @@ def print_boxplots():
 
     # --- Filtered analysis (excluding extreme values y_test = 0 and y_test = 100) ---
     df_study1_filtered = df_study1[(df_study1["y_test"] > 0) & (df_study1["y_test"] < 100)]
+    df_new_models_filtered = df_new_models[(df_new_models["y_test"] > 0) & (df_new_models["y_test"] < 100)]
     df_study2_filtered = df_study2[(df_study2["y_test"] > 0) & (df_study2["y_test"] < 100)]
 
     y_test_study1_filt = df_study1_filtered[
@@ -301,13 +316,22 @@ def print_boxplots():
     metrics_study1_filt["study"] = "Study 1"
     metrics_study1_filt["nMAE"] = metrics_study1_filt["MAE"] / y_test_study1_filt.std()
 
+    y_test_new_models_filt = df_new_models_filtered[
+        df_new_models_filtered["model_name"] == "ridge_regressor"
+    ]["y_test"]
+    metrics_new_models_filt = df_new_models_filtered.groupby("model_name").apply(
+        compute_metrics
+    ).reset_index()
+    metrics_new_models_filt["study"] = "Study 1 (new models)"
+    metrics_new_models_filt["nMAE"] = metrics_new_models_filt["MAE"] / y_test_new_models_filt.std()
+
     metrics_study2_filt = df_study2_filtered.groupby("model_name").apply(
         compute_metrics
     ).reset_index()
     metrics_study2_filt["study"] = "Study 2"
     metrics_study2_filt["nMAE"] = metrics_study2_filt["MAE"] / y_test_study2_filt.std()
 
-    metrics_filtered = pd.concat([metrics_study1_filt, metrics_study2_filt], ignore_index=True)
+    metrics_filtered = pd.concat([metrics_study1_filt, metrics_new_models_filt, metrics_study2_filt], ignore_index=True)
     metrics_filtered = metrics_filtered[["study", "model_name", "MAE", "nMAE", "MSE", "R2"]]
 
     print("\n\n=== Model Performance (excluding y_test = 0 and 100) ===\n")
