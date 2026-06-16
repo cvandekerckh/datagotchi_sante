@@ -6,10 +6,24 @@ to run the already-trained pipeline on a single example, so it imports this
 module instead to keep the runtime dependencies minimal (sklearn + pandas).
 """
 
+import pickle
+
 import pandas as pd
 
 # Prediction column name, kept consistent with app.ml.deploy and the templates.
 PREDICTION_COLUMN = "score_tot_prediction"
+
+
+def load_best_model(path, filename):
+    """Unpickle the trained model tuple (best_model, selected_features).
+
+    Mirrors app.ml.loaders.load_best_model but without importing the training
+    stack (app.ml.constants reads research-only env vars like DATA_PATH at
+    import time, which are absent on the web host).
+    """
+    with open(path / filename, "rb") as pickle_file:
+        best_model, selected_features = pickle.load(pickle_file)
+    return best_model, selected_features
 
 
 def predict_for_example(df_example, model_info, is_df_features=True):

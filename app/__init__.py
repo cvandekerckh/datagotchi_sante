@@ -8,7 +8,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
-from app.ml.loaders import load_best_model
+from app.ml.webapp_predict import load_best_model
 from config import Config
 
 db = SQLAlchemy()
