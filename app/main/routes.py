@@ -776,7 +776,4 @@ def merci():
     db.session.add(new_log_finished)
     db.session.commit()
 
-    # Completion code for prolific
-    completion_code = current_app.config["PROLIFIC_COMPLETION_CODE"]
-
-    return render_template("main/merci.html", completion_code=completion_code)
+    return render_template("main/merci.html")
