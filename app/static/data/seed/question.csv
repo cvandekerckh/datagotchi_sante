@@ -1,0 +1,76 @@
+question_id;question_content;group_id;form_id;pilote_id;question_info
+satis_01;help you understand  how the algorithm works?;satisfaction;likert;;
+satis_02;are satisfying?;satisfaction;likert;;
+satis_03;have sufficient detail?;satisfaction;likert;;
+satis_04;seem complete?;satisfaction;likert;;
+satis_05;tell you how to use it?;satisfaction;likert;;
+satis_06;are useful to your goals?;satisfaction;likert;;
+satis_07;show you how accurate the algorithm is?;satisfaction;likert;;
+satis_08;let you judge when you should trust and not trust the algorithm?;satisfaction;likert;;
+satis_09;included a visual representation?;satisfaction;likert;;
+satis_10;were mainly text-based?;satisfaction;likert;;
+satis_11;included numerical values?;satisfaction;likert;;
+satis_12;were interactive?;satisfaction;likert;;
+lifestyle_01;Which one of the following categories best describes your field of employment?;lifestyle;checkbox;travail_domaine;
+lifestyle_02;Which of the following categories best describes you?;lifestyle;scroll;origines_ethniques;
+lifestyle_03;What is your marital status?;lifestyle;scroll;married;
+lifestyle_04;Which of the following car models do you happen to use most often?;lifestyle;scroll;car_model;
+lifestyle_05;do you smoke cigarettes and/or vape?;lifestyle;likert;smoking;How often: 
+lifestyle_06;do you do activities with one or more friend(s)?;lifestyle;likert;act_friends;How often: 
+lifestyle_07;do you volunteer or involve yourself in a cause?;lifestyle;likert;act_volunteer;How often: 
+lifestyle_08;do you spend time in green or natural environments between May and September?;lifestyle;likert;act_nature_1;How often: 
+lifestyle_09;What is your clothing style?;lifestyle;scroll;style;
+lifestyle_10;Please tick the long-term health problem(s) you have.;lifestyle;checkbox;maladies;"A ""long-term health problem"" is expected to last or has already lasted 6 months or more and has been diagnosed by a health professional."
+lifestyle_11;have you followed a healthy diet in the past month?;lifestyle;likert;autogestion_9;How often 
+lifestyle_12;How would you rate your sleep quality over the past seven days?;lifestyle;cursor;sommeil_1;Please think about the quality of your sleep in the past seven days, such as how many hours of sleep you got, how easily you fell asleep, how often you woke up during the night (except to go to the bathroom), how often you woke up earlier than you had to in the morning, and how refreshing your sleep was.
+lifestyle_13;Self-assess your chronotype by selecting the description that best represents the variation in your alertness levels throughout the day.;lifestyle;scroll;chronotype;"- <strong>Morning Type</strong>: High alertness in the morning, decreasing steadily throughout the day and lowest in the evening.;- <strong>Evening Type</strong>: Low alertness in the morning, increasing throughout the day and peaking in the evening.;- <strong>Highly active Type</strong>: Consistently high alertness throughout the day with little variation.;- <strong>Daytime sleep Type</strong>: High alertness in the morning and evening, with a dip during the daytime (likely due to daytime sleepiness).;- <strong>Diurnal Type</strong>: Peak alertness during the daytime, with lower levels in the morning and evening.;- <strong>Moderately active Type</strong>: Alertness stays moderate throughout the day with slight variation."
+lifestyle_14;"""In my working environment, I can decide when to take a break.""";lifestyle;likert;LatDec_3;To what extent do you agree with the following statements?
+lifestyle_15;"""In my working environment, there are times to discuss the difficulties involved in carrying out our task.""";lifestyle;likert;SoutSup_6;To what extent do you agree with the following statements?
+lifestyle_16;"""In my neighborhood, the population is friendly (e.g., people smile, greet when they meet, or help each other, etc.).""";lifestyle;likert;quartier_domicile_3;To what extent do you agree with the following statements?
+lifestyle_17;"""In my neighborhood, many opportunities (infrastructure, sports and social activities, services/shops) are offered to take care of my health.""";lifestyle;likert;quartier_opportunite;To what extent do you agree with the following statements?
+lifestyle_18;In the past 12 months, have you seen or talked to a health professional about your emotional or mental health?;lifestyle;checkbox;consult_who;
+lifestyle_19;Please indicate the number of immediately available friends with whom you can talk (in person or over phone or text) frankly without having to watch what you say.;lifestyle;cursor;nb_friends_dispo;
+lifestyle_20;"""I agree that the government uses my numeric personal data, if it is for the public good.""";lifestyle;likert;issue_ai_data_3;To what extent do you agree with the following statements?
+knowledge_01;Handling stressful situations in a good manner.;knowledge;likert;;
+knowledge_02;Believe in yourself.;knowledge;likert;;
+knowledge_03;Having good sleep routines.;knowledge;likert;;
+knowledge_04;"Please select ""Somewhat correct"" for this question to confirm that you are paying attention.";knowledge;likert;;
+knowledge_05;Making decisions based on your own will.;knowledge;likert;;
+knowledge_06;Setting limits for your own actions.;knowledge;likert;;
+knowledge_07;Feeling that you belong in a community.;knowledge;likert;;
+knowledge_08;Mastering your own negative thoughts.;knowledge;likert;;
+knowledge_09;Setting limits for what is OK for you.;knowledge;likert;;
+knowledge_10;Feeling valuable regardless of your own accomplishments.;knowledge;likert;;
+knowledge_11;Experiencing school mastery.;knowledge;likert;;
+intent_01;In the coming month, do you intend to improve your sleep quality (e.g., by setting a consistent bedtime, reducing screen time before bed)?;intent;likert;;Regarding your sleep quality:
+intent_02;To what extent is improving your sleep quality important to you?;intent;likert;;
+intent_03;In the coming month, do you intend to follow a healthier diet (e.g., by eating more vegetables, reducing processed food)?;intent;likert;;Regarding your diet:
+intent_04;To what extent is following a healthier diet important to you?;intent;likert;;
+intent_05;In the coming month, do you intend to engage in social activities with one or more friends (e.g., meeting for a meal, going out together)?;intent;likert;;Regarding your social activities:
+intent_06;To what extent is engaging in social activities with friends important to you?;intent;likert;;
+intent_07;In the coming month, do you intend to interact more with people in your neighborhood (e.g., greeting neighbors, attending local events)?;intent;likert;;Regarding your neighborhood:
+intent_08;To what extent is interacting with people in your neighborhood important to you?;intent;likert;;
+intent_09;In the coming month, do you intend to volunteer or get involved in a cause (e.g., helping a local organization, supporting a community initiative)?;intent;likert;;Regarding volunteering:
+intent_10;To what extent is volunteering or getting involved in a cause important to you?;intent;likert;;
+essaim_01;happy?;essaim;likert;;
+essaim_02;interested in life?;essaim;likert;;
+essaim_03;satisfied with your life?;essaim;likert;;
+essaim_04;that you had something important to contribute to society?;essaim;likert;;
+essaim_05;that you had a sense of belonging to a community (such as a social group, your neighborhood, your town, your school)?;essaim;likert;;
+essaim_06;that our society becomes a better place for people like you?;essaim;likert;;
+essaim_07;that people are fundamentally good?;essaim;likert;;
+essaim_08;that the way our society works makes sense to you?;essaim;likert;;
+essaim_09;that you like most aspects of your personality?;essaim;likert;;
+essaim_10;that you were good at handling the responsibilities of your day-to-day life?;essaim;likert;;
+essaim_11;that you had warm, trusting relationships with other people?;essaim;likert;;
+essaim_12;experiences that help you grow and become a better person?;essaim;likert;;
+essaim_13;able to think or express your own ideas and opinions?;essaim;likert;;
+essaim_14;that your life has a purpose or meaning?;essaim;likert;;
+sociodemo_01;What is your gender?;sociodemo;scroll;genre;
+sociodemo_02;Were you born in Canada?;sociodemo;scroll;;
+sociodemo_03;In which province of Canada do you live?;sociodemo;scroll;province;
+sociodemo_05;How many children under the age of 18 live with you?;sociodemo;scroll;enfants;
+sociodemo_07;Approximately, which of the following categories does your total household income, before taxes, fall into?;sociodemo;scroll;revenu;
+sociodemo_08;What is the highest level of education that you have completed?;sociodemo;scroll;education;
+sociodemo_09;How old are you? Please indicate your age using a number.;sociodemo;scroll;age;
+interac_01;Please enter your interac email address to receive your 10CAD Interac transfer.;interac;email;;Your Interac email will not be saved in our data, it will only be used for the Interac transfer.

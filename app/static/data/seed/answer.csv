@@ -1,0 +1,508 @@
+answer_id;answer_content;answer_weight;explain_txt;question_id
+satis_01_01;I disagree strongly;1.0;;satis_01
+satis_01_02;I disagree somewhat;2.0;;satis_01
+satis_01_03;I'm neutral about it;3.0;;satis_01
+satis_01_04;I agree somewhat;4.0;;satis_01
+satis_01_05;I agree strongly;5.0;;satis_01
+satis_02_01;I disagree strongly;1.0;;satis_02
+satis_02_02;I disagree somewhat;2.0;;satis_02
+satis_02_03;I'm neutral about it;3.0;;satis_02
+satis_02_04;I agree somewhat;4.0;;satis_02
+satis_02_05;I agree strongly;5.0;;satis_02
+satis_03_01;I disagree strongly;1.0;;satis_03
+satis_03_02;I disagree somewhat;2.0;;satis_03
+satis_03_03;I'm neutral about it;3.0;;satis_03
+satis_03_04;I agree somewhat;4.0;;satis_03
+satis_03_05;I agree strongly;5.0;;satis_03
+satis_04_01;I disagree strongly;1.0;;satis_04
+satis_04_02;I disagree somewhat;2.0;;satis_04
+satis_04_03;I'm neutral about it;3.0;;satis_04
+satis_04_04;I agree somewhat;4.0;;satis_04
+satis_04_05;I agree strongly;5.0;;satis_04
+satis_05_01;I disagree strongly;1.0;;satis_05
+satis_05_02;I disagree somewhat;2.0;;satis_05
+satis_05_03;I'm neutral about it;3.0;;satis_05
+satis_05_04;I agree somewhat;4.0;;satis_05
+satis_05_05;I agree strongly;5.0;;satis_05
+satis_06_01;I disagree strongly;1.0;;satis_06
+satis_06_02;I disagree somewhat;2.0;;satis_06
+satis_06_03;I'm neutral about it;3.0;;satis_06
+satis_06_04;I agree somewhat;4.0;;satis_06
+satis_06_05;I agree strongly;5.0;;satis_06
+satis_07_01;I disagree strongly;1.0;;satis_07
+satis_07_02;I disagree somewhat;2.0;;satis_07
+satis_07_03;I'm neutral about it;3.0;;satis_07
+satis_07_04;I agree somewhat;4.0;;satis_07
+satis_07_05;I agree strongly;5.0;;satis_07
+satis_08_01;I disagree strongly;1.0;;satis_08
+satis_08_02;I disagree somewhat;2.0;;satis_08
+satis_08_03;I'm neutral about it;3.0;;satis_08
+satis_08_04;I agree somewhat;4.0;;satis_08
+satis_08_05;I agree strongly;5.0;;satis_08
+satis_09_01;I disagree strongly;1.0;;satis_09
+satis_09_02;I disagree somewhat;2.0;;satis_09
+satis_09_03;I'm neutral about it;3.0;;satis_09
+satis_09_04;I agree somewhat;4.0;;satis_09
+satis_09_05;I agree strongly;5.0;;satis_09
+satis_10_01;I disagree strongly;1.0;;satis_10
+satis_10_02;I disagree somewhat;2.0;;satis_10
+satis_10_03;I'm neutral about it;3.0;;satis_10
+satis_10_04;I agree somewhat;4.0;;satis_10
+satis_10_05;I agree strongly;5.0;;satis_10
+satis_11_01;I disagree strongly;1.0;;satis_11
+satis_11_02;I disagree somewhat;2.0;;satis_11
+satis_11_03;I'm neutral about it;3.0;;satis_11
+satis_11_04;I agree somewhat;4.0;;satis_11
+satis_11_05;I agree strongly;5.0;;satis_11
+satis_12_01;I disagree strongly;1.0;;satis_12
+satis_12_02;I disagree somewhat;2.0;;satis_12
+satis_12_03;I'm neutral about it;3.0;;satis_12
+satis_12_04;I agree somewhat;4.0;;satis_12
+satis_12_05;I agree strongly;5.0;;satis_12
+lifestyle_01_01;Management;1.0;;lifestyle_01
+lifestyle_01_02;Business, finance and administration;2.0;;lifestyle_01
+lifestyle_01_03;Natural and applied sciences and related fields;3.0;;lifestyle_01
+lifestyle_01_04;Health;4.0;;lifestyle_01
+lifestyle_01_05;Education, law and social, community and government services;5.0;;lifestyle_01
+lifestyle_01_06;Arts, Culture, Sport and Recreation;6.0;;lifestyle_01
+lifestyle_01_07;Sales and Service;7.0;;lifestyle_01
+lifestyle_01_08;Trades, transport, equipment operators and related occupations;8.0;;lifestyle_01
+lifestyle_01_09;Natural Resources, Agriculture and Related Production;9.0;;lifestyle_01
+lifestyle_01_10;Manufacturing and utilities;10.0;;lifestyle_01
+lifestyle_01_11;Other;11.0;;lifestyle_01
+lifestyle_02_01;White;1.0;;lifestyle_02
+lifestyle_02_02;Black;2.0;;lifestyle_02
+lifestyle_02_03;Indegenous;3.0;;lifestyle_02
+lifestyle_02_04;Asian;4.0;;lifestyle_02
+lifestyle_02_05;Hispanic;5.0;;lifestyle_02
+lifestyle_02_06;Arab;6.0;;lifestyle_02
+lifestyle_02_07;Other;7.0;;lifestyle_02
+lifestyle_03_01;Single;1.0;;lifestyle_03
+lifestyle_03_02;Married;2.0;;lifestyle_03
+lifestyle_03_03;Common-law relationship;3.0;;lifestyle_03
+lifestyle_03_04;Widower/widow;4.0;;lifestyle_03
+lifestyle_03_05;Divorced/separated;5.0;;lifestyle_03
+lifestyle_04_01;4x4;1.0;;lifestyle_04
+lifestyle_04_02;Regular sedan or station wagon;2.0;;lifestyle_04
+lifestyle_04_03;Convertible or roadster;3.0;;lifestyle_04
+lifestyle_04_04;Pickup;4.0;;lifestyle_04
+lifestyle_04_05;Van or minivan;5.0;;lifestyle_04
+lifestyle_04_06;Luxury car (Mercedes, Porsche, etc.);6.0;;lifestyle_04
+lifestyle_04_07;Sports car;7.0;;lifestyle_04
+lifestyle_04_08;Hybrid or electric car;8.0;;lifestyle_04
+lifestyle_04_09;SUV;9.0;;lifestyle_04
+lifestyle_04_10;Other;10.0;;lifestyle_04
+lifestyle_04_11;I do not have a car or I never use a car;11.0;;lifestyle_04
+lifestyle_05_01;Never;1.0;;lifestyle_05
+lifestyle_05_02;A few times a year;2.0;;lifestyle_05
+lifestyle_05_03;Once a month;3.0;;lifestyle_05
+lifestyle_05_04;Once a week;4.0;;lifestyle_05
+lifestyle_05_05;A few times a week;5.0;;lifestyle_05
+lifestyle_05_06;Once a day;6.0;;lifestyle_05
+lifestyle_05_07;More than once a day;7.0;;lifestyle_05
+lifestyle_06_01;Never;1.0;I never spend time with friends;lifestyle_06
+lifestyle_06_02;Almost never;2.0;I rarely spend time with friends;lifestyle_06
+lifestyle_06_03;Sometimes;3.0;I occasionally spend time with friends;lifestyle_06
+lifestyle_06_04;Often;4.0;I frequently spend time with friends;lifestyle_06
+lifestyle_06_05;Very often;5.0;I very frequently spend time with friends;lifestyle_06
+lifestyle_07_01;Never;1.0;I never volunteer for a cause.;lifestyle_07
+lifestyle_07_02;Almost never;2.0;I almost never volunteer for a cause.;lifestyle_07
+lifestyle_07_03;Sometimes;3.0;I sometimes volunteer for a cause.;lifestyle_07
+lifestyle_07_04;Often;4.0;I often volunteer for a cause.;lifestyle_07
+lifestyle_07_05;Very often;5.0;I very often volunteer for a cause.;lifestyle_07
+lifestyle_08_01;Never;1.0;;lifestyle_08
+lifestyle_08_02;Almost never;2.0;;lifestyle_08
+lifestyle_08_03;Sometimes;3.0;;lifestyle_08
+lifestyle_08_04;Often;4.0;;lifestyle_08
+lifestyle_08_05;Very often;5.0;;lifestyle_08
+lifestyle_09_01;Hippie;1.0;;lifestyle_09
+lifestyle_09_02;Elegant;2.0;;lifestyle_09
+lifestyle_09_03;Classical;3.0;;lifestyle_09
+lifestyle_09_04;Casual;4.0;;lifestyle_09
+lifestyle_09_05;Formal;5.0;;lifestyle_09
+lifestyle_09_06;Punk;6.0;;lifestyle_09
+lifestyle_09_07;Rock;7.0;;lifestyle_09
+lifestyle_09_08;Sporty;8.0;;lifestyle_09
+lifestyle_09_09;Other;9.0;;lifestyle_09
+lifestyle_10_01;None of them;0.0;;lifestyle_10
+lifestyle_10_02;Diabetes;15.0;;lifestyle_10
+lifestyle_10_03;Cancer;16.0;;lifestyle_10
+lifestyle_10_04;Chronic fatigue syndrome;19.0;;lifestyle_10
+lifestyle_10_05;Chronic renal failure;20.0;;lifestyle_10
+lifestyle_10_06;Liver disease or gallbladder problems;21.0;;lifestyle_10
+lifestyle_10_07;Stomach or intestinal ulcers;22.0;;lifestyle_10
+lifestyle_11_01;Never;1.0;I never follow a healthy diet;lifestyle_11
+lifestyle_11_02;Almost never;2.0;I rarely follow a healthy diet;lifestyle_11
+lifestyle_11_03;Sometimes;2.5;I occasionally follow a healthy diet;lifestyle_11
+lifestyle_11_04;Often;3.0;I frequently follow a healthy diet;lifestyle_11
+lifestyle_11_05;Very often;4.0;I very frequently follow a healthy diet;lifestyle_11
+lifestyle_12_01;1;1.0;I would rate the quality of my sleep as 1 out of 10;lifestyle_12
+lifestyle_12_02;2;2.0;I would rate the quality of my sleep as 2 out of 10;lifestyle_12
+lifestyle_12_03;3;3.0;I would rate the quality of my sleep as 3 out of 10;lifestyle_12
+lifestyle_12_04;4;4.0;I would rate the quality of my sleep as 4 out of 10;lifestyle_12
+lifestyle_12_05;5;5.0;I would rate the quality of my sleep as 5 out of 10;lifestyle_12
+lifestyle_12_06;6;6.0;I would rate the quality of my sleep as 6out of 10;lifestyle_12
+lifestyle_12_07;7;7.0;I would rate the quality of my sleep as 7 out of 10;lifestyle_12
+lifestyle_12_08;8;8.0;I would rate the quality of my sleep as 8 out of 10;lifestyle_12
+lifestyle_12_09;9;9.0;I would rate the quality of my sleep as 9 out of 10;lifestyle_12
+lifestyle_12_10;10;10.0;I would rate the quality of my sleep as 10 out of 10;lifestyle_12
+lifestyle_13_01;Morning;1.0;;lifestyle_13
+lifestyle_13_02;Evening;2.0;;lifestyle_13
+lifestyle_13_03;Highly active;3.0;;lifestyle_13
+lifestyle_13_04;Daytime sleep;4.0;;lifestyle_13
+lifestyle_13_05;Diurnal;5.0;;lifestyle_13
+lifestyle_13_06;Moderately active;6.0;;lifestyle_13
+lifestyle_14_01;Strongly disagree;5.0;;lifestyle_14
+lifestyle_14_02;Somewhat disagree;4.0;;lifestyle_14
+lifestyle_14_04;Somewhat agree;2.0;;lifestyle_14
+lifestyle_14_05;Strongly agree;1.0;;lifestyle_14
+lifestyle_15_01;Strongly disagree;5.0;;lifestyle_15
+lifestyle_15_02;Somewhat disagree;4.0;;lifestyle_15
+lifestyle_15_04;Somewhat agree;2.0;;lifestyle_15
+lifestyle_15_05;Strongly agree;1.0;;lifestyle_15
+lifestyle_16_01;Strongly disagree;1.0;I strongly disagree that the population in my neighborhood is friendly.;lifestyle_16
+lifestyle_16_02;Somewhat disagree;2.0;I somewhat disagree that the population in my neighborhood is friendly.;lifestyle_16
+lifestyle_16_03;Somewhat agree;3.0;I somewhat agree that the population in my neighborhood is friendly.;lifestyle_16
+lifestyle_16_04;Strongly agree;4.0;I strongly agree that the population in my neighborhood is friendly.;lifestyle_16
+lifestyle_17_01;Strongly disagree;1.0;;lifestyle_17
+lifestyle_17_02;Somewhat disagree;2.0;;lifestyle_17
+lifestyle_17_03;Somewhat agree;3.0;;lifestyle_17
+lifestyle_17_04;Strongly agree;4.0;;lifestyle_17
+lifestyle_18_01;No, I have not consulted a health professional regarding my emotional or mental health;7.0;;lifestyle_18
+lifestyle_18_02;Yes, I have consulted a family doctor or general practitioner;1.0;;lifestyle_18
+lifestyle_18_03;Yes, I have consulted a psychiatrist;2.0;;lifestyle_18
+lifestyle_18_04;Yes, I have consulted a psychologist;3.0;;lifestyle_18
+lifestyle_18_05;Yes, I have consulted a nurse;4.0;;lifestyle_18
+lifestyle_18_06;Yes, I have consulted a social worker or counselor;5.0;;lifestyle_18
+lifestyle_18_07;Yes, I have consulted an other health professional;6.0;;lifestyle_18
+lifestyle_19_01;1;1.0;;lifestyle_19
+lifestyle_19_02;2;2.0;;lifestyle_19
+lifestyle_19_03;3;3.0;;lifestyle_19
+lifestyle_19_04;4;4.0;;lifestyle_19
+lifestyle_19_05;5;5.0;;lifestyle_19
+lifestyle_19_06;6;6.0;;lifestyle_19
+lifestyle_19_07;7;7.0;;lifestyle_19
+lifestyle_19_08;8;8.0;;lifestyle_19
+lifestyle_19_09;9;9.0;;lifestyle_19
+lifestyle_19_10;10+;10.0;;lifestyle_19
+lifestyle_20_01;Strongly disagree;1.0;;lifestyle_20
+lifestyle_20_02;Somewhat disagree;2.0;;lifestyle_20
+lifestyle_20_03;Somewhat agree;3.0;;lifestyle_20
+lifestyle_20_04;Strongly agree;4.0;;lifestyle_20
+knowledge_01_01;Completely wrong;1.0;;knowledge_01
+knowledge_01_02;A little wrong;2.0;;knowledge_01
+knowledge_01_03;Neither wrong nor right;3.0;;knowledge_01
+knowledge_01_04;Somewhat correct;4.0;;knowledge_01
+knowledge_01_05;Completely correct;5.0;;knowledge_01
+knowledge_02_01;Completely wrong;1.0;;knowledge_02
+knowledge_02_02;A little wrong;2.0;;knowledge_02
+knowledge_02_03;Neither wrong nor right;3.0;;knowledge_02
+knowledge_02_04;Somewhat correct;4.0;;knowledge_02
+knowledge_02_05;Completely correct;5.0;;knowledge_02
+knowledge_03_01;Completely wrong;1.0;;knowledge_03
+knowledge_03_02;A little wrong;2.0;;knowledge_03
+knowledge_03_03;Neither wrong nor right;3.0;;knowledge_03
+knowledge_03_04;Somewhat correct;4.0;;knowledge_03
+knowledge_03_05;Completely correct;5.0;;knowledge_03
+knowledge_04_01;Completely wrong;1.0;;knowledge_04
+knowledge_04_02;A little wrong;2.0;;knowledge_04
+knowledge_04_03;Neither wrong nor right;3.0;;knowledge_04
+knowledge_04_04;Somewhat correct;4.0;;knowledge_04
+knowledge_04_05;Completely correct;5.0;;knowledge_04
+knowledge_05_01;Completely wrong;1.0;;knowledge_05
+knowledge_05_02;A little wrong;2.0;;knowledge_05
+knowledge_05_03;Neither wrong nor right;3.0;;knowledge_05
+knowledge_05_04;Somewhat correct;4.0;;knowledge_05
+knowledge_05_05;Completely correct;5.0;;knowledge_05
+knowledge_06_01;Completely wrong;1.0;;knowledge_06
+knowledge_06_02;A little wrong;2.0;;knowledge_06
+knowledge_06_03;Neither wrong nor right;3.0;;knowledge_06
+knowledge_06_04;Somewhat correct;4.0;;knowledge_06
+knowledge_06_05;Completely correct;5.0;;knowledge_06
+knowledge_07_01;Completely wrong;1.0;;knowledge_07
+knowledge_07_02;A little wrong;2.0;;knowledge_07
+knowledge_07_03;Neither wrong nor right;3.0;;knowledge_07
+knowledge_07_04;Somewhat correct;4.0;;knowledge_07
+knowledge_07_05;Completely correct;5.0;;knowledge_07
+knowledge_08_01;Completely wrong;1.0;;knowledge_08
+knowledge_08_02;A little wrong;2.0;;knowledge_08
+knowledge_08_03;Neither wrong nor right;3.0;;knowledge_08
+knowledge_08_04;Somewhat correct;4.0;;knowledge_08
+knowledge_08_05;Completely correct;5.0;;knowledge_08
+knowledge_09_01;Completely wrong;1.0;;knowledge_09
+knowledge_09_02;A little wrong;2.0;;knowledge_09
+knowledge_09_03;Neither wrong nor right;3.0;;knowledge_09
+knowledge_09_04;Somewhat correct;4.0;;knowledge_09
+knowledge_09_05;Completely correct;5.0;;knowledge_09
+knowledge_10_01;Completely wrong;1.0;;knowledge_10
+knowledge_10_02;A little wrong;2.0;;knowledge_10
+knowledge_10_03;Neither wrong nor right;3.0;;knowledge_10
+knowledge_10_04;Somewhat correct;4.0;;knowledge_10
+knowledge_10_05;Completely correct;5.0;;knowledge_10
+knowledge_11_01;Completely wrong;1.0;;knowledge_11
+knowledge_11_02;A little wrong;2.0;;knowledge_11
+knowledge_11_03;Neither wrong nor right;3.0;;knowledge_11
+knowledge_11_04;Somewhat correct;4.0;;knowledge_11
+knowledge_11_05;Completely correct;5.0;;knowledge_11
+intent_01_01;Definitely not;1.0;;intent_01
+intent_01_02;Probably not;2.0;;intent_01
+intent_01_03;Uncertain;3.0;;intent_01
+intent_01_04;Probably yes;4.0;;intent_01
+intent_01_05;Definitely yes;5.0;;intent_01
+intent_02_01;Not important at all;1.0;;intent_02
+intent_02_02;Slightly important;2.0;;intent_02
+intent_02_03;Moderately important;3.0;;intent_02
+intent_02_04;Very important;4.0;;intent_02
+intent_02_05;Extremely important;5.0;;intent_02
+intent_03_01;Definitely not ;1.0;;intent_03
+intent_03_02;Probably not;2.0;;intent_03
+intent_03_03;Uncertain;3.0;;intent_03
+intent_03_04;Probably yes;4.0;;intent_03
+intent_03_05;Definitely yes;5.0;;intent_03
+intent_04_01;Not important at all ;1.0;;intent_04
+intent_04_02;Slightly important;2.0;;intent_04
+intent_04_03;Moderately important;3.0;;intent_04
+intent_04_04;Very important;4.0;;intent_04
+intent_04_05;Extremely important;5.0;;intent_04
+intent_05_01;Definitely not;1.0;;intent_05
+intent_05_02;Probably not ;2.0;;intent_05
+intent_05_03;Uncertain;3.0;;intent_05
+intent_05_04;Probably yes;4.0;;intent_05
+intent_05_05;Definitely yes;5.0;;intent_05
+intent_06_01;Not important at all;1.0;;intent_06
+intent_06_02;Slightly important ;2.0;;intent_06
+intent_06_03;Moderately important;3.0;;intent_06
+intent_06_04;Very important;4.0;;intent_06
+intent_06_05;Extremely important;5.0;;intent_06
+intent_07_01;Definitely not;1.0;;intent_07
+intent_07_02;Probably not;2.0;;intent_07
+intent_07_03;Uncertain ;3.0;;intent_07
+intent_07_04;Probably yes;4.0;;intent_07
+intent_07_05;Definitely yes;5.0;;intent_07
+intent_08_01;Not important at all;1.0;;intent_08
+intent_08_02;Slightly important;2.0;;intent_08
+intent_08_03;Moderately important ;3.0;;intent_08
+intent_08_04;Very important;4.0;;intent_08
+intent_08_05;Extremely important;5.0;;intent_08
+intent_09_01;Definitely not;1.0;;intent_09
+intent_09_02;Probably not;2.0;;intent_09
+intent_09_03;Uncertain;3.0;;intent_09
+intent_09_04;Probably yes ;4.0;;intent_09
+intent_09_05;Definitely yes;5.0;;intent_09
+intent_10_01;Not important at all;1.0;;intent_10
+intent_10_02;Slightly important;2.0;;intent_10
+intent_10_03;Moderately important;3.0;;intent_10
+intent_10_04;Very important ;4.0;;intent_10
+intent_10_05;Extremely important;5.0;;intent_10
+essaim_01_01;Never;1.0;;essaim_01
+essaim_01_02;Once or twice;2.0;;essaim_01
+essaim_01_03;About once a week;3.0;;essaim_01
+essaim_01_04;About two or three times a week;4.0;;essaim_01
+essaim_01_05;Almost every day;5.0;;essaim_01
+essaim_01_06;Everyday;6.0;;essaim_01
+essaim_02_01;Never;1.0;;essaim_02
+essaim_02_02;Once or twice;2.0;;essaim_02
+essaim_02_03;About once a week;3.0;;essaim_02
+essaim_02_04;About two or three times a week;4.0;;essaim_02
+essaim_02_05;Almost every day;5.0;;essaim_02
+essaim_02_06;Everyday;6.0;;essaim_02
+essaim_03_01;Never;1.0;;essaim_03
+essaim_03_02;Once or twice;2.0;;essaim_03
+essaim_03_03;About once a week;3.0;;essaim_03
+essaim_03_04;About two or three times a week;4.0;;essaim_03
+essaim_03_05;Almost every day;5.0;;essaim_03
+essaim_03_06;Everyday;6.0;;essaim_03
+essaim_04_01;Never;6.0;;essaim_04
+essaim_04_02;Once or twice;5.0;;essaim_04
+essaim_04_03;About once a week;4.0;;essaim_04
+essaim_04_04;About two or three times a week;3.0;;essaim_04
+essaim_04_05;Almost every day;2.0;;essaim_04
+essaim_04_06;Everyday;1.0;;essaim_04
+essaim_05_01;Never;6.0;;essaim_05
+essaim_05_02;Once or twice;5.0;;essaim_05
+essaim_05_03;About once a week;4.0;;essaim_05
+essaim_05_04;About two or three times a week;3.0;;essaim_05
+essaim_05_05;Almost every day;2.0;;essaim_05
+essaim_05_06;Everyday;1.0;;essaim_05
+essaim_06_01;Never;6.0;;essaim_06
+essaim_06_02;Once or twice;5.0;;essaim_06
+essaim_06_03;About once a week;4.0;;essaim_06
+essaim_06_04;About two or three times a week;3.0;;essaim_06
+essaim_06_05;Almost every day;2.0;;essaim_06
+essaim_06_06;Everyday;1.0;;essaim_06
+essaim_07_01;Never;6.0;;essaim_07
+essaim_07_02;Once or twice;5.0;;essaim_07
+essaim_07_03;About once a week;4.0;;essaim_07
+essaim_07_04;About two or three times a week;3.0;;essaim_07
+essaim_07_05;Almost every day;2.0;;essaim_07
+essaim_07_06;Everyday;1.0;;essaim_07
+essaim_08_01;Never;6.0;;essaim_08
+essaim_08_02;Once or twice;5.0;;essaim_08
+essaim_08_03;About once a week;4.0;;essaim_08
+essaim_08_04;About two or three times a week;3.0;;essaim_08
+essaim_08_05;Almost every day;2.0;;essaim_08
+essaim_08_06;Everyday;1.0;;essaim_08
+essaim_09_01;Never;6.0;;essaim_09
+essaim_09_02;Once or twice;5.0;;essaim_09
+essaim_09_03;About once a week;4.0;;essaim_09
+essaim_09_04;About two or three times a week;3.0;;essaim_09
+essaim_09_05;Almost every day;2.0;;essaim_09
+essaim_09_06;Everyday;1.0;;essaim_09
+essaim_10_01;Never;6.0;;essaim_10
+essaim_10_02;Once or twice;5.0;;essaim_10
+essaim_10_03;About once a week;4.0;;essaim_10
+essaim_10_04;About two or three times a week;3.0;;essaim_10
+essaim_10_05;Almost every day;2.0;;essaim_10
+essaim_10_06;Everyday;1.0;;essaim_10
+essaim_11_01;Never;6.0;;essaim_11
+essaim_11_02;Once or twice;5.0;;essaim_11
+essaim_11_03;About once a week;4.0;;essaim_11
+essaim_11_04;About two or three times a week;3.0;;essaim_11
+essaim_11_05;Almost every day;2.0;;essaim_11
+essaim_11_06;Everyday;1.0;;essaim_11
+essaim_12_01;Never;6.0;;essaim_12
+essaim_12_02;Once or twice;5.0;;essaim_12
+essaim_12_03;About once a week;4.0;;essaim_12
+essaim_12_04;About two or three times a week;3.0;;essaim_12
+essaim_12_05;Almost every day;2.0;;essaim_12
+essaim_12_06;Everyday;1.0;;essaim_12
+essaim_13_01;Never;6.0;;essaim_13
+essaim_13_02;Once or twice;5.0;;essaim_13
+essaim_13_03;About once a week;4.0;;essaim_13
+essaim_13_04;About two or three times a week;3.0;;essaim_13
+essaim_13_05;Almost every day;2.0;;essaim_13
+essaim_13_06;Everyday;1.0;;essaim_13
+essaim_14_01;Never;6.0;;essaim_14
+essaim_14_02;Once or twice;5.0;;essaim_14
+essaim_14_03;About once a week;4.0;;essaim_14
+essaim_14_04;About two or three times a week;3.0;;essaim_14
+essaim_14_05;Almost every day;2.0;;essaim_14
+essaim_14_06;Everyday;1.0;;essaim_14
+sociodemo_01_01;Male (cisgender male);1.0;;sociodemo_01
+sociodemo_01_02;Female (cisgender female);2.0;;sociodemo_01
+sociodemo_01_03;Male (transgender male);3.0;;sociodemo_01
+sociodemo_01_04;Female (transgender woman);4.0;;sociodemo_01
+sociodemo_01_05;Non-binary;5.0;;sociodemo_01
+sociodemo_01_06;Queer;6.0;;sociodemo_01
+sociodemo_01_07;Agender;7.0;;sociodemo_01
+sociodemo_01_08;Other;8.0;;sociodemo_01
+sociodemo_02_01;Yes;1.0;;sociodemo_02
+sociodemo_02_02;No;2.0;;sociodemo_02
+sociodemo_03_01;I don't live in Canada;0.0;;sociodemo_03
+sociodemo_03_02;Alberta;1.0;;sociodemo_03
+sociodemo_03_03;British Columbia;2.0;;sociodemo_03
+sociodemo_03_04;Prince Edward Island;3.0;;sociodemo_03
+sociodemo_03_05;Manitoba;4.0;;sociodemo_03
+sociodemo_03_06;New Brunswick;5.0;;sociodemo_03
+sociodemo_03_07;Nova Scotia;6.0;;sociodemo_03
+sociodemo_03_08;Nunavut;7.0;;sociodemo_03
+sociodemo_03_09;Ontario;8.0;;sociodemo_03
+sociodemo_03_10;Quebec;9.0;;sociodemo_03
+sociodemo_03_11;Saskatchewan;10.0;;sociodemo_03
+sociodemo_03_12;Newfoudland and Labrador;11.0;;sociodemo_03
+sociodemo_03_13;Northwest Territories;12.0;;sociodemo_03
+sociodemo_03_14;Yukon;13.0;;sociodemo_03
+sociodemo_05_01;0;1.0;;sociodemo_05
+sociodemo_05_02;1;2.0;;sociodemo_05
+sociodemo_05_03;2;3.0;;sociodemo_05
+sociodemo_05_04;3;4.0;;sociodemo_05
+sociodemo_05_05;4;5.0;;sociodemo_05
+sociodemo_05_06;5 or more;6.0;;sociodemo_05
+sociodemo_07_01;No income;1.0;;sociodemo_07
+sociodemo_07_02;$1 to $30,000;2.0;;sociodemo_07
+sociodemo_07_03;$30,001 to $60,000;3.0;;sociodemo_07
+sociodemo_07_04;$60,001 to $90,000;4.0;;sociodemo_07
+sociodemo_07_05;$90,001 to $110,000;5.0;;sociodemo_07
+sociodemo_07_06;$110,001 to $150,000;6.0;;sociodemo_07
+sociodemo_07_07;$150,001 to $200,000;7.0;;sociodemo_07
+sociodemo_07_08;More than $200,000;8.0;;sociodemo_07
+sociodemo_08_01;No schooling;1.0;;sociodemo_08
+sociodemo_08_02;Elementary school;2.0;;sociodemo_08
+sociodemo_08_03;High school;3.0;;sociodemo_08
+sociodemo_08_04;College, CEGEP, or Classical College;4.0;;sociodemo_08
+sociodemo_08_05;Bachelor's degree;5.0;;sociodemo_08
+sociodemo_08_06;Master's degree;6.0;;sociodemo_08
+sociodemo_08_07;PhD;7.0;;sociodemo_08
+sociodemo_09_18;18;18.0;;sociodemo_09
+sociodemo_09_19;19;19.0;;sociodemo_09
+sociodemo_09_20;20;20.0;;sociodemo_09
+sociodemo_09_21;21;21.0;;sociodemo_09
+sociodemo_09_22;22;22.0;;sociodemo_09
+sociodemo_09_23;23;23.0;;sociodemo_09
+sociodemo_09_24;24;24.0;;sociodemo_09
+sociodemo_09_25;25;25.0;;sociodemo_09
+sociodemo_09_26;26;26.0;;sociodemo_09
+sociodemo_09_27;27;27.0;;sociodemo_09
+sociodemo_09_28;28;28.0;;sociodemo_09
+sociodemo_09_29;29;29.0;;sociodemo_09
+sociodemo_09_30;30;30.0;;sociodemo_09
+sociodemo_09_31;31;31.0;;sociodemo_09
+sociodemo_09_32;32;32.0;;sociodemo_09
+sociodemo_09_33;33;33.0;;sociodemo_09
+sociodemo_09_34;34;34.0;;sociodemo_09
+sociodemo_09_35;35;35.0;;sociodemo_09
+sociodemo_09_36;36;36.0;;sociodemo_09
+sociodemo_09_37;37;37.0;;sociodemo_09
+sociodemo_09_38;38;38.0;;sociodemo_09
+sociodemo_09_39;39;39.0;;sociodemo_09
+sociodemo_09_40;40;40.0;;sociodemo_09
+sociodemo_09_41;41;41.0;;sociodemo_09
+sociodemo_09_42;42;42.0;;sociodemo_09
+sociodemo_09_43;43;43.0;;sociodemo_09
+sociodemo_09_44;44;44.0;;sociodemo_09
+sociodemo_09_45;45;45.0;;sociodemo_09
+sociodemo_09_46;46;46.0;;sociodemo_09
+sociodemo_09_47;47;47.0;;sociodemo_09
+sociodemo_09_48;48;48.0;;sociodemo_09
+sociodemo_09_49;49;49.0;;sociodemo_09
+sociodemo_09_50;50;50.0;;sociodemo_09
+sociodemo_09_51;51;51.0;;sociodemo_09
+sociodemo_09_52;52;52.0;;sociodemo_09
+sociodemo_09_53;53;53.0;;sociodemo_09
+sociodemo_09_54;54;54.0;;sociodemo_09
+sociodemo_09_55;55;55.0;;sociodemo_09
+sociodemo_09_56;56;56.0;;sociodemo_09
+sociodemo_09_57;57;57.0;;sociodemo_09
+sociodemo_09_58;58;58.0;;sociodemo_09
+sociodemo_09_59;59;59.0;;sociodemo_09
+sociodemo_09_60;60;60.0;;sociodemo_09
+sociodemo_09_61;61;61.0;;sociodemo_09
+sociodemo_09_62;62;62.0;;sociodemo_09
+sociodemo_09_63;63;63.0;;sociodemo_09
+sociodemo_09_64;64;64.0;;sociodemo_09
+sociodemo_09_65;65;65.0;;sociodemo_09
+sociodemo_09_66;66;66.0;;sociodemo_09
+sociodemo_09_67;67;67.0;;sociodemo_09
+sociodemo_09_68;68;68.0;;sociodemo_09
+sociodemo_09_69;69;69.0;;sociodemo_09
+sociodemo_09_70;70;70.0;;sociodemo_09
+sociodemo_09_71;71;71.0;;sociodemo_09
+sociodemo_09_72;72;72.0;;sociodemo_09
+sociodemo_09_73;73;73.0;;sociodemo_09
+sociodemo_09_74;74;74.0;;sociodemo_09
+sociodemo_09_75;75;75.0;;sociodemo_09
+sociodemo_09_76;76;76.0;;sociodemo_09
+sociodemo_09_77;77;77.0;;sociodemo_09
+sociodemo_09_78;78;78.0;;sociodemo_09
+sociodemo_09_79;79;79.0;;sociodemo_09
+sociodemo_09_80;80;80.0;;sociodemo_09
+sociodemo_09_81;81;81.0;;sociodemo_09
+sociodemo_09_82;82;82.0;;sociodemo_09
+sociodemo_09_83;83;83.0;;sociodemo_09
+sociodemo_09_84;84;84.0;;sociodemo_09
+sociodemo_09_85;85;85.0;;sociodemo_09
+sociodemo_09_86;86;86.0;;sociodemo_09
+sociodemo_09_87;87;87.0;;sociodemo_09
+sociodemo_09_88;88;88.0;;sociodemo_09
+sociodemo_09_89;89;89.0;;sociodemo_09
+sociodemo_09_90;90;90.0;;sociodemo_09
+sociodemo_09_91;91;91.0;;sociodemo_09
+sociodemo_09_92;92;92.0;;sociodemo_09
+sociodemo_09_93;93;93.0;;sociodemo_09
+sociodemo_09_94;94;94.0;;sociodemo_09
+sociodemo_09_95;95;95.0;;sociodemo_09
+sociodemo_09_96;96;96.0;;sociodemo_09
+sociodemo_09_97;97;97.0;;sociodemo_09
+sociodemo_09_98;98;98.0;;sociodemo_09
+sociodemo_09_99;99;99.0;;sociodemo_09
+sociodemo_09_100;100+;100.0;;sociodemo_09

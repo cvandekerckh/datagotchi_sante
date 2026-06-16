@@ -22,7 +22,7 @@ from flask_login import current_user, login_required
 
 from app import create_app, db
 from app.main import bp
-from app.ml.deploy import predict_for_example
+from app.ml.webapp_predict import predict_for_example
 from app.models import Answer, Log, Question, get_explains_by_answer_ids
 
 matplotlib.use("Agg")
@@ -439,83 +439,50 @@ def update_features_dico(features_dico, answer_ids, question_id, form_id):
     return features_dico, pilote_id_out
 
 
-@bp.route("/explain", methods=["POST"])
-@login_required
-def explain():
+# Explanation types available in the simplified demo: the student fills the
+# lifestyle questionnaire once and can then freely switch between these.
+EXPLAIN_TYPES = [
+    ("explain_baseline", "Baseline"),
+    ("explain_visual", "Visual"),
+    ("explain_textual", "Textual"),
+    ("explain_quantitative", "Quantitative"),
+    ("explain_interactive", "Interactive"),
+    ("explain_contextual", "Contextual"),
+]
+VALID_EXPLAIN_TYPES = {type_id for type_id, _ in EXPLAIN_TYPES}
 
-    # (for checkboxes) Parse form for lifestyle questions with multiple answers
-    form_data = form_todict(request.form)
 
-    # Extract list of lifestyle questions in questionnaire
-    questions = Question.query.filter(Question.group_id == "lifestyle").all()
-    questionnaire_dico = questionnaire(questions)
+def answers_by_question_from_logs(questions):
+    """Rebuild {question_id: [answer_ids]} from the user's most recent logs."""
+    recent = get_most_recent_answers(current_user.user_id, questions)
+    return {
+        question_id: [answer_id for answer_id, _, _ in answers]
+        for question_id, answers in recent.items()
+    }
 
-    # Extract list of lifestyle questions in questionnaire for explainability
-    feature_content_dic = get_feature_content_dic()
-    displayed_feature_list = list(feature_content_dic.keys())
-    questions_explain = Question.query.filter(
-        Question.group_id == "lifestyle", Question.pilote_id.in_(displayed_feature_list)
-    ).all()
-    questionnaire_explain_dico = questionnaire(questions_explain)
 
-    # Preallocate features to be populated
+def build_explain_dic(
+    answers_by_question,
+    questionnaire_dico,
+    previous_predicted_score=None,
+    log_score=False,
+):
+    """Compute the prediction and the explainability payload from lifestyle answers."""
     selected_features = current_app.selected_features
     features_dico = {feature: 0.0 for feature in selected_features}
     features_explain_txt_dico = {feature: "" for feature in selected_features}
+    feature_content_dic = get_feature_content_dic()
+    displayed_feature_list = list(feature_content_dic.keys())
 
-    # Record timestamp and set seed
-    timestamp = datetime.now(timezone.utc)
-    seed = 0
-
-    # Retry flag for interactive mode
-    interactive_retry_mode = form_data["source_page"] == "explain_interactive.html"
-    previous_predicted_score = None
-
-    # If coming from lifestyle.html, then
-    # - extract and log lifestyle answers
-    # - create features based on lifestyle answers
-    if not interactive_retry_mode:
-        for question_id, (
-            _,
-            _,
-            form_id,
-            questionnaire_value,
-        ) in questionnaire_dico.items():
-            answer_ids = get_answer_ids(
-                form_data, form_id, question_id, questionnaire_value, seed
-            )
-            explain_txt_list = get_explains_by_answer_ids(answer_ids)
-            log_answer_ids(answer_ids, timestamp, question_id, "lifestyle")
-            features_dico, pilote_id = update_features_dico(
-                features_dico, answer_ids, question_id, form_id
-            )
+    for question_id, answer_ids in answers_by_question.items():
+        _, _, form_id, _ = questionnaire_dico[question_id]
+        explain_txt_list = get_explains_by_answer_ids(answer_ids)
+        features_dico, pilote_id = update_features_dico(
+            features_dico, answer_ids, question_id, form_id
+        )
+        if pilote_id is not None:
             features_explain_txt_dico[pilote_id] = (
-                explain_txt_list[0] if len(explain_txt_list) > 0 else ""
-            )  # assuming explain feature only have 1 answer id
-            seed += 1
-        db.session.commit()
-    # If coming from explain_interactive.html, then
-    # - extract and log new answers from explain_interactive answers
-    # - extract most recent  answers
-    # - create features based on most recent answers
-    else:
-        previous_predicted_score = form_data["previous_predicted_score"]
-        for question_id, (
-            _,
-            _,
-            form_id,
-            questionnaire_value,
-        ) in questionnaire_explain_dico.items():
-            answer_ids = get_answer_ids(
-                form_data, form_id, question_id, questionnaire_value, seed
-            )
-            log_answer_ids(answer_ids, timestamp, question_id, "explain_interactive")
-        most_recent_answers = get_most_recent_answers(current_user.user_id, questions)
-        for question_id, answers in most_recent_answers.items():
-            answer_ids = [answer_id for answer_id, _, _ in answers]
-            _, _, form_id, _ = questionnaire_dico[question_id]
-            features_dico, _ = update_features_dico(
-                features_dico, answer_ids, question_id, form_id
+                explain_txt_list[0] if explain_txt_list else ""
             )
 
     # Predict score from features
@@ -528,51 +495,28 @@ def explain():
     )
     predicted_score = df_y["score_tot_prediction"].iloc[0]
 
-    # Log predicted score
-    new_log = Log(
-        timestamp=datetime.now(timezone.utc),
-        log_type="score_computation",
-        log_info=predicted_score,
-        user_id=current_user.user_id,
-        phase_id="explain",
-    )
-    db.session.add(new_log)
-    db.session.commit()
+    if log_score:
+        db.session.add(
+            Log(
+                timestamp=datetime.now(timezone.utc),
+                log_type="score_computation",
+                log_info=predicted_score,
+                user_id=current_user.user_id,
+                phase_id="explain",
+            )
+        )
+        db.session.commit()
 
-    # Extract model additional info
-    ## 1 - regression coefficient
+    # Model coefficients and scaled feature values
     coefficients = best_model.named_steps["regressor"].coef_
     feature_coeff_dict = dict(zip(selected_features, coefficients))
-    sorted_feature_coeff_dict = dict(
-        sorted(feature_coeff_dict.items(), key=lambda item: item[1], reverse=True)
-    )
-
-    ## 2 - values before and after scaler steps
     X = features_df[selected_features].values
     scaler = best_model.named_steps["scaler"]
     X_scaled = scaler.transform(best_model.named_steps["imputer"].transform(X))
+    values_coeff_dict = dict(zip(selected_features, X_scaled[0]))
 
-    values = X_scaled[0]
-    values_coeff_dict = dict(zip(selected_features, values))
-    sorted_values_coeff_dict = dict(
-        sorted(values_coeff_dict.items(), key=lambda item: item[1], reverse=True)
-    )
-
-    raw_values = X[0]
-    raw_values_coeff_dict = dict(zip(selected_features, raw_values))
-    sorted_raw_values_coeff_dict = dict(
-        sorted(raw_values_coeff_dict.items(), key=lambda item: item[1], reverse=True)
-    )
-
-    ## 3 - double check model prediction
-    predicted_score_bis = sum(coef * val for coef, val in zip(coefficients, values))
-    predicted_score_bis += best_model.named_steps["regressor"].intercept_
-
-    ## 4 - information about features
     intermediate_predicted_score = 0
     for displayed_feature in displayed_feature_list:
-        feature_coeff = feature_coeff_dict[displayed_feature]
-        value_coeff = values_coeff_dict[displayed_feature]
         feature_content_dic[displayed_feature].append(
             feature_coeff_dict[displayed_feature]
         )
@@ -582,40 +526,102 @@ def explain():
         feature_content_dic[displayed_feature].append(
             features_explain_txt_dico[displayed_feature]
         )
-        intermediate_predicted_score += feature_coeff * value_coeff
+        intermediate_predicted_score += (
+            feature_coeff_dict[displayed_feature]
+            * values_coeff_dict[displayed_feature]
+        )
 
-    # 5) extract most recent answers (logs) from the 5 lifestyle features
-    most_recent_answers_explain = get_most_recent_answers(
-        current_user.user_id, questions_explain
-    )
-
-    # Prepare dictionary with all explainable information
-    explain_dic = {
+    return {
         "predicted_score": round(predicted_score),
         "previous_predicted_score": previous_predicted_score,
         "intermediate_predicted_score": round(intermediate_predicted_score),
         "n_informative": len(feature_content_dic),
         "feature_content_dic": feature_content_dic,
     }
-    return render_template(
-        f"main/{current_user.condition_id}.html",
-        explain_dic=explain_dic,
-        questionnaire_dico=questionnaire_explain_dico,
-        predefined_values=most_recent_answers_explain,
-    )
 
 
-@bp.route("/satisfaction", methods=["GET", "POST"])
+@bp.route("/explain", methods=["GET", "POST"])
 @login_required
-def satisfaction():
-    # step 1 : extract questions for satisfaction
-    questions = Question.query.filter(Question.group_id == "satisfaction").all()
+def explain():
+
+    # Lifestyle questions (all, and the subset displayed in the explanation)
+    questions = Question.query.filter(Question.group_id == "lifestyle").all()
     questionnaire_dico = questionnaire(questions)
 
+    displayed_feature_list = list(get_feature_content_dic().keys())
+    questions_explain = Question.query.filter(
+        Question.group_id == "lifestyle",
+        Question.pilote_id.in_(displayed_feature_list),
+    ).all()
+    questionnaire_explain_dico = questionnaire(questions_explain)
+
+    previous_predicted_score = None
+
+    if request.method == "POST":
+        form_data = form_todict(request.form)
+        interactive_retry_mode = form_data["source_page"] == "explain_interactive.html"
+        timestamp = datetime.now(timezone.utc)
+
+        if not interactive_retry_mode:
+            # First arrival from lifestyle.html : log the lifestyle answers
+            seed = 0
+            for question_id, (
+                _,
+                _,
+                form_id,
+                questionnaire_value,
+            ) in questionnaire_dico.items():
+                answer_ids = get_answer_ids(
+                    form_data, form_id, question_id, questionnaire_value, seed
+                )
+                log_answer_ids(answer_ids, timestamp, question_id, "lifestyle")
+                seed += 1
+            db.session.commit()
+            explain_type = current_user.condition_id
+        else:
+            # Re-prediction from the interactive explanation : log new answers
+            previous_predicted_score = form_data["previous_predicted_score"]
+            seed = 0
+            for question_id, (
+                _,
+                _,
+                form_id,
+                questionnaire_value,
+            ) in questionnaire_explain_dico.items():
+                answer_ids = get_answer_ids(
+                    form_data, form_id, question_id, questionnaire_value, seed
+                )
+                log_answer_ids(
+                    answer_ids, timestamp, question_id, "explain_interactive"
+                )
+                seed += 1
+            db.session.commit()
+            explain_type = "explain_interactive"
+        log_score = True
+    else:
+        # GET : switch explanation type, recompute from the already-logged answers
+        explain_type = request.args.get("type") or current_user.condition_id
+        log_score = False
+
+    if explain_type not in VALID_EXPLAIN_TYPES:
+        explain_type = "explain_baseline"
+
+    answers_by_question = answers_by_question_from_logs(questions)
+    explain_dic = build_explain_dic(
+        answers_by_question,
+        questionnaire_dico,
+        previous_predicted_score=previous_predicted_score,
+        log_score=log_score,
+    )
+    predefined_values = get_most_recent_answers(current_user.user_id, questions_explain)
+
     return render_template(
-        "main/satisfaction.html",
-        questionnaire_dico=questionnaire_dico,
-        skip_valid=current_app.config["SKIP_VALID"],
+        f"main/{explain_type}.html",
+        explain_dic=explain_dic,
+        questionnaire_dico=questionnaire_explain_dico,
+        predefined_values=predefined_values,
+        explain_types=EXPLAIN_TYPES,
+        current_explain_type=explain_type,
     )
 
 
@@ -735,39 +741,12 @@ def essaim():
     )
 
 
-@bp.route("/merci", methods=["POST"])
+@bp.route("/merci", methods=["GET", "POST"])
 @login_required
 def merci():
-
-    # step 1 : extract questions ids for satisfaction
-    questions = Question.query.filter(Question.group_id == "satisfaction").all()
-    question_ids = get_question_ids(questions)
-
-    # step 2 : extract and load answer values for satisfaction
-    # (last step of the simplified experiment, which skips intent, knowledge_after
-    # and essaim ; satisfaction is posted directly to /merci)
-    timestamp = datetime.now(timezone.utc)
-    for question_id in question_ids:
-        answer_id = request.form[question_id]
-
-        # chose random value if not answered for debug
-        if not answer_id and current_app.config["SKIP_VALID"]:
-            question = db.session.get(Question, question_id)
-            answer_id = question.get_random_answer().answer_id
-
-        new_log = Log(
-            timestamp=timestamp,
-            user_id=current_user.user_id,
-            question_id=question_id,
-            answer_id=answer_id,
-            phase_id="satisfaction",
-        )
-        db.session.add(new_log)
-    db.session.commit()
-
-    # New log for finished time
+    # Final page of the simplified demo (explain -> merci, no satisfaction step)
     new_log_finished = Log(
-        timestamp=timestamp,
+        timestamp=datetime.now(timezone.utc),
         log_type="finished",
         user_id=current_user.user_id,
         question_id=None,

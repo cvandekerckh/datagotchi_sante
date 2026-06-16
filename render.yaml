@@ -1,0 +1,19 @@
+# Render Blueprint for the simplified student demo.
+# SQLite is ephemeral (reset on each deploy/restart) and re-seeded at startup by
+# bootstrap_db.py from the committed CSVs in app/static/data/seed/. This is fine
+# for a short demo. The free plan sleeps after inactivity (cold start ~1 min):
+# open the URL once to warm it up before the demo.
+services:
+  - type: web
+    name: datagotchi-demo
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bootstrap_db.py && gunicorn -w 1 -b 0.0.0.0:$PORT microapp:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:///app_simplified.db
+      - key: PYTHON_VERSION
+        value: "3.11.9"

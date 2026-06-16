@@ -1,5 +1,6 @@
 import csv
 import re
+import uuid
 
 from flask import current_app, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
@@ -120,6 +121,29 @@ def login():
         login_user(user)
         return redirect(url_for(current_app.config["MAIN_PAGE"]))
     return render_template("auth/login.html", form=form)
+
+
+@bp.route("/start", methods=["GET", "POST"])
+def start():
+    """Anonymous quick-start for the student demo.
+
+    Creates a fresh anonymous user, assigns a default condition (the demo lets
+    the user switch explanation types freely afterwards) and logs them in.
+    """
+    if current_user.is_authenticated:
+        return redirect(url_for(current_app.config["MAIN_PAGE"]))
+
+    user = User(user_id="anon-" + uuid.uuid4().hex)
+    db.session.add(user)
+    db.session.commit()
+
+    condition_id = current_app.config["EXPLAIN_TYPE"] or get_next_condition_id(
+        User, CONDITION_ID_LIST
+    )
+    user.assign_condition(condition_id)
+
+    login_user(user)
+    return redirect(url_for(current_app.config["MAIN_PAGE"]))
 
 
 @bp.route("/close", methods=["GET", "POST"])

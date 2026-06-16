@@ -63,13 +63,7 @@
             </td>
         </tr>
     </table>    
-    <a>
-        <form action="{{ url_for('main.satisfaction') }}" method="post">
-            <div style="text-align: left;">
-                <input type="submit" value="Next" class="btn btn-primary btn-submit">
-            </div>
-        </form>
-    </a>
+    {% include 'main/_explain_switcher.html' %}
     <br>
 </div>
 {% endblock %}

@@ -13,11 +13,9 @@
     <br>
     <br>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <h1 class = "align"> <b>Sign In</b></h1>
+    <h1 class = "align"> <b>Well-Being Predictor</b></h1>
     <br>
-    <div class = "align", class="row">
-        <div class = "blocktext ", class="col-md-4">
-            {{ wtf.quick_form(form) }}
-        </div>
+    <div class="align" style="text-align: center;">
+        <a href="{{ url_for('auth.start') }}" class="btn btn-primary btn-lg">Commencer</a>
     </div>
 {% endblock %}

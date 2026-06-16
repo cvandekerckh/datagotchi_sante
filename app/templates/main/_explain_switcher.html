@@ -1,0 +1,14 @@
+{# Explanation-type switcher + finish button for the simplified student demo.
+   Lets the user (who filled the lifestyle questionnaire once) freely switch
+   between explanation types on the same prediction. #}
+<div class="explain-switcher" style="text-align: center; margin: 25px 0;">
+    <p><strong>Try another explanation type:</strong></p>
+    {% for type_id, type_label in explain_types %}
+        <a href="{{ url_for('main.explain', type=type_id) }}"
+           class="btn btn-sm {% if type_id == current_explain_type %}btn-primary{% else %}btn-default{% endif %}"
+           style="margin: 3px;">{{ type_label }}</a>
+    {% endfor %}
+</div>
+<div style="text-align: center; margin-top: 20px;">
+    <a href="{{ url_for('main.merci') }}" class="btn btn-success btn-submit">Terminer</a>
+</div>
