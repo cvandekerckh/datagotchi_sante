@@ -274,28 +274,17 @@ def knowledge_before():
 @login_required
 def lifestyle():
 
-    # step 1 : extract questions ids for knowledge before
-    questions = Question.query.filter(Question.group_id == "knowledge").all()
-    question_ids = get_question_ids(questions)
-
-    # step 2 : extract and load answer values for knowledge before
+    # step 1 : log consent start time (first POST after the consent page in the
+    # simplified experiment, which skips sociodemo and knowledge_before)
     timestamp = datetime.now(timezone.utc)
-    for seed, question_id in enumerate(question_ids):
-        answer_id = request.form[question_id]
-
-        # chose random value if not answered for debug
-        if not answer_id and current_app.config["SKIP_VALID"]:
-            question = db.session.get(Question, question_id)
-            answer_id = question.get_random_answer(seed=seed).answer_id
-
-        new_log = Log(
-            timestamp=timestamp,
-            user_id=current_user.user_id,
-            question_id=question_id,
-            answer_id=answer_id,
-            phase_id="knowledge_before",
-        )
-        db.session.add(new_log)
+    new_log_started = Log(
+        timestamp=timestamp,
+        log_type="started",
+        user_id=current_user.user_id,
+        question_id=None,
+        phase_id="consent",
+    )
+    db.session.add(new_log_started)
     db.session.commit()
 
     # step 3 : extract questions for lifestyle
@@ -750,11 +739,13 @@ def essaim():
 @login_required
 def merci():
 
-    # step 1 : extract questions ids for essaim
-    questions = Question.query.filter(Question.group_id == "essaim").all()
+    # step 1 : extract questions ids for satisfaction
+    questions = Question.query.filter(Question.group_id == "satisfaction").all()
     question_ids = get_question_ids(questions)
 
-    # step 2 : extract and load answer values for essaim
+    # step 2 : extract and load answer values for satisfaction
+    # (last step of the simplified experiment, which skips intent, knowledge_after
+    # and essaim ; satisfaction is posted directly to /merci)
     timestamp = datetime.now(timezone.utc)
     for question_id in question_ids:
         answer_id = request.form[question_id]
@@ -769,7 +760,7 @@ def merci():
             user_id=current_user.user_id,
             question_id=question_id,
             answer_id=answer_id,
-            phase_id="essaim",
+            phase_id="satisfaction",
         )
         db.session.add(new_log)
     db.session.commit()
